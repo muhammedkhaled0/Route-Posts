@@ -1,0 +1,23 @@
+@import "tailwindcss";
+body{
+  background-color: #F0F2F5;
+    font-family: "Cairo", sans-serif;
+
+}
+.myContainer{
+  @apply mx-auto px-4 sm:px-4 md:px-8 lg:px-20 max-w-full
+}
+@theme{
+  --color-dark-Blue:#00298d;
+
+}
+.auth-active{
+  @apply bg-white text-dark-Blue rounded-xl py-2;
+}
+.input {
+  @apply flex items-center gap-2.5 ps-8 pe-4 py-3 bg-gray-100 border  rounded-xl text-sm text-gray-800 placeholder-gray-400 outline-none transition-all duration-150 w-full  border-gray-200;
+}
+
+.input:focus {
+  @apply border-black bg-white;
+}
