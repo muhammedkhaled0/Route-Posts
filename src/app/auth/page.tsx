@@ -7,7 +7,7 @@ import Register from "./Register"
 export default function AuthLayout() {
   const [isLogin, setIsLogin] = useState(true)
   const [isRegister, setIsRegister] = useState(false)
-  return <div className="lg:pt-25 md:pt-15 pt-10 myContainer min-h-dvh">
+  return <div className="lg:pt-25 md:pt-15 pt-10 myContainer min-h-dvh mb-8">
    <div className=" grid grid-cols-1 lg:grid-cols-3 gap-y-8 ">
     <div className="lg:col-span-2 lg:w-full sm:w-3/4 sm:mx-auto">
       <div className='lg:w-65/100 lg:mx-auto'>
