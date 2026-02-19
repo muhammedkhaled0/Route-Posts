@@ -21,3 +21,6 @@ body{
 .input:focus {
   @apply border-black bg-white;
 }
+.active{
+  @apply text-blue-600
+}
