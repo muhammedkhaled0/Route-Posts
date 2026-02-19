@@ -9,7 +9,7 @@ import BarIcon from "./icons/BarIcon";
 import { usePathname } from "next/navigation";
 export default function Navbar() {
   const pathName=usePathname()
-  return <nav className="bg-white shadow">
+  return <nav className="bg-white shadow fixed top-0 start-0 end-0 z-50 ">
     <div className="myContainer py-2 flex justify-between align-baseline">
       <div>
         <div className=" flex gap-x-3">
