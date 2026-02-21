@@ -1,4 +1,4 @@
-import  UsersIcon  from '@/src/compnents/icons/UsersIcon'
+import { Users } from "lucide-react"
 
 type Props = {
   register: any
@@ -11,7 +11,7 @@ export default function Dropdown({ register, name, error, touched }: Props) {
   return (
     <div className="flex flex-col gap-1 ">
       <div className="relative">
-        <UsersIcon className="size-5 text-gray-400 absolute top-1/2 -translate-y-1/2 start-2 pointer-events-none" />
+        <Users className="size-5 text-gray-400 absolute top-1/2 -translate-y-1/2 start-2 pointer-events-none" />
         <select
           {...register(name)}
           className="

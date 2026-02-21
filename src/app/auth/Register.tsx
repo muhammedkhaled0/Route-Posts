@@ -1,8 +1,6 @@
 import Dropdown from "@/src/compnents/Dropdown";
-import AddIcon from "@/src/compnents/icons/AddIcon";
-import PersonIcon from "@/src/compnents/icons/PersonIcon";
-import KeyIcon from "@/src/compnents/icons/keyIcon";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { AtSign, Key, User } from "lucide-react";
 import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import * as z from "zod";
@@ -73,7 +71,7 @@ export default function Register() {
       </p>
       <form className="flex flex-col gap-y-4" onSubmit={handleSubmit(sendData)}>
         <div className="relative">
-          <PersonIcon className="size-5 text-gray-400 absolute top-1/2 -translate-1/2 start-4" />
+          <User className="size-5 text-gray-400 absolute top-1/2 -translate-1/2 start-4" />
           <input
             className="input"
             placeholder="Full Name"
@@ -84,7 +82,7 @@ export default function Register() {
           <p className="text-red-500">{errors.name?.message}</p>
         )}
         <div className="relative">
-          <AddIcon className="size-5 text-gray-400 absolute top-1/2 -translate-1/2 start-4" />
+          <AtSign className="size-5 text-gray-400 absolute top-1/2 -translate-1/2 start-4" />
           <input
             className="input"
             placeholder="User Name {optional}"
@@ -96,7 +94,7 @@ export default function Register() {
         )}
 
         <div className="relative">
-          <AddIcon className="size-5 text-gray-400 absolute top-1/2 -translate-1/2 start-4" />
+          <AtSign className="size-5 text-gray-400 absolute top-1/2 -translate-1/2 start-4" />
           <input className="input" placeholder="Email" {...register("email")} />
         </div>
         {touchedFields.email && (
@@ -109,14 +107,14 @@ export default function Register() {
   error={errors.gender?.message}
 />
         <div className="relative">
-          <AddIcon className="size-5 text-gray-400 absolute top-1/2 -translate-1/2 start-4" />
+          <AtSign className="size-5 text-gray-400 absolute top-1/2 -translate-1/2 start-4" />
           <input className="input" placeholder="Email" {...register("email")} />
         </div>
         {touchedFields.email && (
           <p className="text-red-500">{errors.email?.message}</p>
         )}
         <div className="relative">
-          <KeyIcon className="size-5 text-gray-400 absolute top-1/2 -translate-1/2 start-5" />
+          <Key className="size-5 text-gray-400 absolute top-1/2 -translate-1/2 start-5" />
 
           <input
             className="input"
@@ -130,7 +128,7 @@ export default function Register() {
         )}
 
         <div className="relative">
-          <KeyIcon className="size-5 text-gray-400 absolute top-1/2 -translate-1/2 start-5" />
+          <Key className="size-5 text-gray-400 absolute top-1/2 -translate-1/2 start-5" />
 
           <input
             className="input"
@@ -146,7 +144,7 @@ export default function Register() {
           type="submit"
           className="w-full bg-dark-Blue py-3 text-white font-extrabold rounded-xl cursor-pointer hover:bg-[#04216a] transition-all duration-500"
         >
-          Log in
+          Register
         </button>
       </form>
     </>

@@ -1,6 +1,5 @@
-import PersonIcon from '@/src/compnents/icons/PersonIcon'
-import KeyIcon from '@/src/compnents/icons/keyIcon'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { Key, User } from 'lucide-react'
 import React from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import * as z from "zod"
@@ -35,7 +34,7 @@ export default function Login() {
       <p className='text-gray-500 text-sm mb-4'>Log in and continue your social journey.</p>
   <form className='flex flex-col gap-y-4' onSubmit={handleSubmit(sendData)}>
     <div className='relative'>
-        <PersonIcon className="size-5 text-gray-400 absolute top-1/2 -translate-1/2 start-4" />
+        <User className="size-5 text-gray-400 absolute top-1/2 -translate-1/2 start-4" />
   <input
     className="input"
     placeholder='Enter Logged Email'
@@ -46,7 +45,7 @@ export default function Login() {
       {touchedFields.email&& <p className='text-red-500'>{errors.email?.message}</p>}
 
 <div className='relative'>
-        <KeyIcon className="size-5 text-gray-400 absolute top-1/2 -translate-1/2 start-4" />
+        <Key className="size-5 text-gray-400 absolute top-1/2 -translate-1/2 start-4" />
 
     <input
     className="input"
