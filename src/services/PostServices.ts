@@ -1,4 +1,3 @@
-"use server"
 import { PostI } from "../interfaces/PostI";
 
 export async function getAllPostsApi(){

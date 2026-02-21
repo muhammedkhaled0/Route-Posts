@@ -20,7 +20,6 @@ export async function getUserSuggestionsApi(){
         }
     })
     const data:any=await res.json()
-    console.log(data.data.suggestions);
     return data.data.suggestions
     
 } 

@@ -20,9 +20,11 @@ export default function Home() {
   const[posts,setPosts] = useState<PostI[]>([])
   const [privacy, setPrivacy] = useState("public")
   const [loading, setLoading] = useState(false)
+  const [user, setUser] = useState<null|UserI>(null)
   async function fetchPosts(type: "all" | "myPosts"|"following"|"saved") {
       setLoading(true)
   const user: UserI = await getUserApi()
+    setUser(user)
   let posts: PostI[] = []
   if(type === "all") {
     posts = await getAllPostsApi()
@@ -104,7 +106,7 @@ export default function Home() {
     </div>
   ) : (
     posts.map((post) => (
-      <PostCard post={post} key={post._id} />
+      <PostCard post={post} key={post._id} currentUserId={user?._id}/>
     ))
   )
 }
