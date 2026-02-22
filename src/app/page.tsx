@@ -13,7 +13,9 @@ import { Bookmark, EarthIcon, ImagePlay, Newspaper, Send, Smile, SparkleIcon, X 
 import { PostI } from "../interfaces/PostI";
 import PostSkeleton from "../compnents/PostSkeleton";
 import { UserContext } from "../compnents/Contexts/UserContext";
+import CommentsModal from "../compnents/CommentModal";
 export default function Home() {
+
   const [posting, setPosting] = useState(false)
   const [open, setOpen] = useState(false)
   const [postBody,setPostBody] = useState<string>('');
@@ -205,12 +207,13 @@ export default function Home() {
     </div>
   ) : (
     posts.map((post) => (
-      <PostCard post={post} key={post._id} currentUserId={user?._id}/>
+      <PostCard post={post} key={post._id} currentUserId={user?._id} currentUser={user}/>
     ))
   )
 }
     </div>
     <SuggestedFriends className='right-sec order-2 lg:order-3 lg:col-span-3  lg:sticky lg:top-20 block  h-fit'/>
   </div>
+
   </>
 }

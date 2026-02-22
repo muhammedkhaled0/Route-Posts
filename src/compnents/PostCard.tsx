@@ -12,8 +12,13 @@ import { PostI } from "../interfaces/PostI";
 import { createAndDeleteLike } from "../services/LikeServices";
 import { useState } from "react";
 import { LikeResI } from "../interfaces/LikeI";
+import CommentsModal from "./CommentModal";
+import { UserI } from "../interfaces/UserI";
 
-export default function PostCard({ post,currentUserId }: { post: PostI,currentUserId:any }) {
+export default function PostCard({ post,currentUserId,currentUser }: { post: PostI,currentUserId:any,currentUser:UserI|null }) {
+    const [showComments, setShowComments] = useState(false);
+  const handleOpen = () => setShowComments(true);
+  const handleClose = () => setShowComments(false); 
   const userId = post.user._id ??'';
   const [noOfLikes,setNoOfLikes] =useState(post.likesCount);
   const [noOfComments,setNoOfComments] =useState(post.commentsCount);
@@ -100,7 +105,7 @@ export default function PostCard({ post,currentUserId }: { post: PostI,currentUs
             <ThumbsUp/>
             Like
             </button>
-            <div className="cursor-pointer py-1 rounded flex justify-center gap-x-3  hover:bg-gray-100 w-1/3">
+            <div className="cursor-pointer py-1 rounded flex justify-center gap-x-3  hover:bg-gray-100 w-1/3" onClick={handleOpen}>
             <MessageCircle/>
             Comment
             </div>
@@ -109,7 +114,9 @@ export default function PostCard({ post,currentUserId }: { post: PostI,currentUs
             Share
             </div>
           </button>
-  
+{showComments && post?.user && (
+  <CommentsModal onClose={handleClose} Commentuser={post.user}  currentUser={currentUser}/>
+)}
       </div>
     </div>
   );

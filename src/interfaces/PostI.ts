@@ -1,4 +1,4 @@
-interface User {
+export interface UserPostI {
   _id: string;
   name: string;
   username: string;
@@ -12,7 +12,7 @@ interface Comment {
   parentComment: string | null;
   post: string;
   likes: string[];
-  commentCreator: User;
+  commentCreator: UserPostI;
 }
 
 interface SharedPost {
@@ -20,7 +20,7 @@ interface SharedPost {
   body: string;
   image?: string;
   privacy: string;
-  user: User;
+  user: UserPostI;
   createdAt: string;
 }
 
@@ -29,7 +29,7 @@ export interface PostI {
   body: string;
   image?: string;
   privacy: 'public' | 'private' | 'friends';
-  user: User;
+  user: UserPostI;
   createdAt: string;
   sharedPost: SharedPost | null;
   likes: string[];
