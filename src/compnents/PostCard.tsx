@@ -18,6 +18,7 @@ export default function PostCard({ post,currentUserId }: { post: PostI,currentUs
   const [noOfLikes,setNoOfLikes] =useState(post.likesCount);
   const [noOfComments,setNoOfComments] =useState(post.commentsCount);
   const [noOfShares,setNoOfShers] =useState(post.sharesCount);
+  const [imgSrc, setImgSrc] = useState(post?.user.photo || "/person.jpg");
   const [isLiked,setIsLiked] =useState(post.likes?.some(id => id === currentUserId));
   const timeAgo = post.createdAt ? getTimeAgo(post.createdAt) : "";
   return (
@@ -26,20 +27,20 @@ export default function PostCard({ post,currentUserId }: { post: PostI,currentUs
       <div className="flex items-center justify-between px-4 pt-3">
         <div className="flex items-center gap-2">
           {/* Avatar */}
-          <Image
-               src={post?.user.photo||'/person.jpg'}
-            alt={post.user.name}
-            width={40}
-            height={40}
-            className="rounded-full object-cover size-10"
-          />
+  <Image
+      src={imgSrc}
+      onError={() => setImgSrc("/person.jpg")}
+      width={50}
+      height={50}
+      alt="user photo"
+      className="size-8 rounded-full"
+    />
 
           {/* Meta */}
           <div className="flex flex-col">
             <span className="text-[15px] font-semibold text-[#050505]">
               {post.user.name}
             </span>
-
             <div className="flex items-center gap-1 text-[12px] text-[#65676b]">
               {post.user.name && <span>{post.user.name}</span>}
               {post.user.name && <span className="text-[6px]">·</span>}

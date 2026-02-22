@@ -8,19 +8,23 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import PrivacyDropdown from "../compnents/PrivacyDropdown";
 import SuggestedFriends from "../compnents/SuggestedFriends";
 import PostCard from "../compnents/PostCard";
-import { getAllPostsApi, getFollowingPostsApi, getSavedPostsApi, getUserPostsApi } from "../services/PostServices";
+import { AddPostsApi, getAllPostsApi, getFollowingPostsApi, getSavedPostsApi, getUserPostsApi } from "../services/PostServices";
 import { Bookmark, EarthIcon, ImagePlay, Newspaper, Send, Smile, SparkleIcon, X } from "lucide-react";
 import { PostI } from "../interfaces/PostI";
 import PostSkeleton from "../compnents/PostSkeleton";
 import { UserContext } from "../compnents/Contexts/UserContext";
 export default function Home() {
+  const [posting, setPosting] = useState(false)
   const [open, setOpen] = useState(false)
   const [postBody,setPostBody] = useState<string>('');
   const [postImg,setPostImg] = useState<string | null>(null);
-  function handleImage(e:React.ChangeEvent<HTMLInputElement>){   
+  const [sendedPostImg,setSendedPostImg] = useState<File | null>(null);
+  function handleImage(e:React.ChangeEvent<HTMLInputElement>){
+       
     const img=e.target.files?.[0]
       if (!img) return;
     setPostImg(URL.createObjectURL(img))  
+    setSendedPostImg(img)
   }
   const [feedType, setFeedType] = useState<"all"|"myPosts"|"following"|"saved">("all")
   const[posts,setPosts] = useState<PostI[]>([])
@@ -49,6 +53,19 @@ export default function Home() {
   useEffect(()=>{
     fetchPosts("all")
   },[])
+  async function sendPost(){
+  setPosting(true)
+  const formData = new FormData()
+  if (postBody) formData.append("body", postBody)
+  if (sendedPostImg) formData.append("image", sendedPostImg)
+  formData.append("privacy", privacy)
+  const x = await AddPostsApi(formData)
+  setPosting(false)
+  setSendedPostImg(null)
+  setPostBody('')
+  setPostImg(null)
+  fetchPosts(feedType)
+  }
   return <>
   <div className=" myContainer body-space grid items-start  lg:grid-cols-10 grid-cols-1 lg:gap-5 gap-y-5 overflow-visible ">
     <div className="left-sec lg:order-1 order-1 bg-white p-4 rounded-xl shadow lg:sticky lg:top-27 lg:col-span-2 mt-2 h-fit ">
@@ -97,8 +114,8 @@ export default function Home() {
       onChange={setPrivacy}
       options={[
         { label: "Public", value: "public" },
-        { label: "Followers", value: "followers" },
-        { label: "Only me", value: "onlyMe" },
+        { label: "following", value: "following" },
+        { label: "Only me", value: "only_me" },
       ]}
     />
     <div>
@@ -116,7 +133,7 @@ export default function Home() {
        <img src={postImg} className="w-full"/>
      </div>:''
       }
-    {/* ==================================================post footer=============================== */}
+    {/* ==================================================add post footer=============================== */}
 
       <div className="h-px bg-gray-200 mx-0 my-2" />
       <div className="flex items-center justify-between py-1">
@@ -155,7 +172,7 @@ export default function Home() {
           <Picker
             data={data}
             onEmojiSelect={(emoji: any) => {
-              console.log(emoji.native) // الإيموجي المختار
+            setPostBody(prev => prev + emoji.native)
               setOpen(false)
             }}
           />
@@ -164,12 +181,15 @@ export default function Home() {
     </div>
         </div>
         {/* Post Button */}
-        <button disabled={Boolean(!postImg&&!postBody)} className="disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold px-4 py-2 rounded-lg transition-colors cursor-pointer">
-          Post
+        <button onClick={()=>{
+          sendPost()
+          
+        }} disabled={posting || (!postImg && !postBody)} className="disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold px-4 py-2 rounded-lg transition-colors cursor-pointer">
+       {posting ? "Posting..." : "Post"}
           <Send className="w-4 h-4" />
         </button>
       </div>
-      {/* ========================================end post footer==================================== */}
+      {/* ========================================end add post footer==================================== */}
     </div>
       </div>
 {
