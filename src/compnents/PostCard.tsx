@@ -9,7 +9,6 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import { PostI } from "../interfaces/PostI";
-import personImg from "@/public/person.jpg";
 import { createAndDeleteLike } from "../services/LikeServices";
 import { useState } from "react";
 import { LikeResI } from "../interfaces/LikeI";
@@ -28,7 +27,7 @@ export default function PostCard({ post,currentUserId }: { post: PostI,currentUs
         <div className="flex items-center gap-2">
           {/* Avatar */}
           <Image
-               src={post?.user.photo||personImg}
+               src={post?.user.photo||'/person.jpg'}
             alt={post.user.name}
             width={40}
             height={40}
