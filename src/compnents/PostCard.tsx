@@ -19,7 +19,6 @@ export default function PostCard({ post,currentUserId,currentUser }: { post: Pos
     const [showComments, setShowComments] = useState(false);
   const handleOpen = () => setShowComments(true);
   const handleClose = () => setShowComments(false); 
-  const userId = post.user._id ??'';
   const [noOfLikes,setNoOfLikes] =useState(post.likesCount);
   const [noOfComments,setNoOfComments] =useState(post.commentsCount);
   const [noOfShares,setNoOfShers] =useState(post.sharesCount);
@@ -94,7 +93,7 @@ export default function PostCard({ post,currentUserId,currentUser }: { post: Pos
       </div>
       {/* Actions */}
       <div className="flex px-2 py-1">
-          <button
+          <div
             className="flex-1 flex items-center gap-1.5 py-2 rounded-md text-[#65676b] font-semibold text-[15px]"
           >
             <button onClick={async()=>{
@@ -113,9 +112,9 @@ export default function PostCard({ post,currentUserId,currentUser }: { post: Pos
             <Share2/>
             Share
             </div>
-          </button>
-{showComments && post?.user && (
-  <CommentsModal onClose={handleClose} Commentuser={post.user}  currentUser={currentUser}/>
+          </div>
+{showComments && post?.user && currentUser&&(
+  <CommentsModal postUser={post?.user}  postId={post?._id} onClose={ handleClose} currentUser={currentUser} setNoOfComments={setNoOfComments}/>
 )}
       </div>
     </div>

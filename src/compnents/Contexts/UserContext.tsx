@@ -18,7 +18,6 @@ export default function UserContextProvider({
   children: React.ReactNode;
 }) {
   const [user, setUser] = useState<UserI | null>(null);
-
   useEffect(() => {
     async function fetchUser() {
       const data = await getUserApi();

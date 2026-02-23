@@ -33,7 +33,7 @@ export default function Home() {
   const [privacy, setPrivacy] = useState("public")
   const [loading, setLoading] = useState(false)
   const { user } = useContext(UserContext);
-  const [imgSrc, setImgSrc] = useState(user?.photo || "/person.jpg");
+  console.log(user);
   async function fetchPosts(type: "all" | "myPosts"|"following"|"saved") {
       setLoading(true)
   let posts: PostI[] = []
@@ -54,6 +54,8 @@ export default function Home() {
   }
   useEffect(()=>{
     fetchPosts("all")
+   
+    
   },[])
   async function sendPost(){
   setPosting(true)
@@ -101,14 +103,25 @@ export default function Home() {
     <div className="mid-sec lg:orde-2 order-3   lg:col-span-5   flex flex-col gap-y-4">
       <div className="bg-white rounded-2xl p-4">
       <div className="flex gap-x-4">
-  <Image
-      src={imgSrc}
-      onError={() => setImgSrc("/person.jpg")}
+        {
+          
+        }
+        {
+          user?<Image
+      src={user?.photo}
+      width={50}
+      height={50}
+      alt="user photo"
+      className="size-8 rounded-full"
+    />:<Image
+      src={"/person.jpg"}
+      
       width={50}
       height={50}
       alt="user photo"
       className="size-8 rounded-full"
     />
+        }
             <span className="font-extrabold mt-1">Muhammed</span>
       </div>
             <PrivacyDropdown 
