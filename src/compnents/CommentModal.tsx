@@ -8,199 +8,10 @@ import {
   getAllPostCommentsApi,
 } from "../services/CommentServices";
 import { UserI } from "../interfaces/UserI";
-
-/* ================= TYPES ================= */
-
-export interface Comment {
-  _id: string;
-  content?: string;
-  image?: string;
-  commentCreator: {
-    _id: string;
-    name: string;
-    photo: string;
-  };
-  post: string;
-  parentComment: string | null;
-  likes: any[];
-  createdAt: string;
-  repliesCount: number;
-}
-
-/* ================= HELPERS ================= */
-
-function timeAgo(dateStr: string) {
-  const diff = Date.now() - new Date(dateStr).getTime();
-  const m = Math.floor(diff / 60000);
-  if (m < 1) return "just now";
-  if (m < 60) return `${m}m ago`;
-  const h = Math.floor(m / 60);
-  if (h < 24) return `${h}h ago`;
-  return `${Math.floor(h / 24)}d ago`;
-}
-
-/* ================= IMAGE WITH FALLBACK ================= */
-
-function UserImage({ src, size = "md" }: { src?: string; size?: "sm" | "md" }) {
-  const cls = size === "sm" ? "w-7 h-7" : "w-9 h-9";
-  return (
-    <img
-      src={src || "/person.jpg"}
-      onError={(e) => { (e.target as HTMLImageElement).src = "/person.jpg"; }}
-      className={`${cls} rounded-full object-cover shrink-0 ring-2 ring-white shadow-sm`}
-    />
-  );
-}
-
-/* ================= SPINNER ================= */
-
-function Spinner({ small }: { small?: boolean }) {
-  const cls = small ? "w-3.5 h-3.5 border" : "w-5 h-5 border-2";
-  return (
-    <div className={`${cls} border-white/40 border-t-white rounded-full animate-spin`} />
-  );
-}
-
-/* ================= REPLY INPUT ================= */
-
-function ReplyInput({
-  onSubmit,
-  onCancel,
-}: {
-  onSubmit: (text: string, image?: File) => Promise<void>;
-  onCancel: () => void;
-}) {
-  const [text, setText] = useState("");
-  const [image, setImage] = useState<File>();
-  const [loading, setLoading] = useState(false);
-
-  async function handleSubmit() {
-    if (!text.trim() && !image) return;
-    setLoading(true);
-    await onSubmit(text, image);
-    setLoading(false);
-    setText("");
-    setImage(undefined);
-  }
-
-  return (
-    <div className="mt-2 ml-1 flex flex-col gap-1.5 animate-in slide-in-from-top-1 fade-in duration-150">
-      {image && (
-        <div className="relative w-16 h-16 ml-1">
-          <img src={URL.createObjectURL(image)} className="w-full h-full object-cover rounded-xl" />
-          <button
-            onClick={() => setImage(undefined)}
-            className="absolute -top-1 -right-1 w-4 h-4 bg-gray-700 text-white rounded-full flex items-center justify-center text-[9px]"
-          >
-            ×
-          </button>
-        </div>
-      )}
-      <div className="flex items-center gap-2">
-        <div className="flex-1 flex items-center bg-white border border-gray-200 rounded-full px-3 py-1.5 gap-2 shadow-sm">
-          <input
-            value={text}
-            onChange={(e) => setText(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && !e.shiftKey && handleSubmit()}
-            placeholder="Write a reply…"
-            className="flex-1 text-xs outline-none bg-transparent text-gray-800 placeholder-gray-400"
-          />
-          <label className="cursor-pointer text-gray-400 hover:text-indigo-500 transition-colors">
-            <ImageIcon size={13} />
-            <input hidden type="file" accept="image/*" onChange={(e) => setImage(e.target.files?.[0])} />
-          </label>
-        </div>
-
-        <button
-          onClick={handleSubmit}
-          disabled={loading || (!text.trim() && !image)}
-          className="w-7 h-7 flex items-center justify-center rounded-full bg-gradient-to-br from-indigo-500 to-violet-600 text-white disabled:opacity-40 shadow-md hover:scale-105 active:scale-95 transition"
-        >
-          {loading ? <Spinner small /> : <Send size={11} />}
-        </button>
-
-        <button onClick={onCancel} className="text-[11px] text-gray-400 hover:text-gray-600 transition">
-          Cancel
-        </button>
-      </div>
-    </div>
-  );
-}
-
-/* ================= COMMENT ITEM ================= */
-
-function CommentItem({
-  comment,
-  onReplySubmit,
-}: {
-  comment: Comment;
-  onReplySubmit: (commentId: string, text: string, image?: File) => Promise<void>;
-}) {
-  const [replying, setReplying] = useState(false);
-
-  return (
-    <div className="flex gap-3 group">
-      <UserImage src={comment.commentCreator.photo} />
-
-      <div className="flex-1 min-w-0">
-        {/* Bubble */}
-        <div className="bg-gray-100 hover:bg-gray-50 rounded-2xl rounded-tl-sm px-4 py-3 shadow-sm transition-colors">
-          <div className="flex items-center gap-2 mb-0.5">
-            <p className="font-semibold text-sm text-gray-900 leading-tight">
-              {comment.commentCreator.name}
-            </p>
-            <span className="text-[10px] text-gray-400">{timeAgo(comment.createdAt)}</span>
-          </div>
-
-          {comment.content && (
-            <p className="text-sm text-gray-700 leading-relaxed">{comment.content}</p>
-          )}
-
-          {comment.image && (
-            <img src={comment.image} className="mt-2 rounded-xl max-h-44 object-cover" />
-          )}
-        </div>
-
-        {/* Action row */}
-        <div className="flex items-center gap-3 mt-1 px-1">
-          <button
-            onClick={() => setReplying((p) => !p)}
-            className="text-[11px] font-medium text-gray-400 hover:text-indigo-500 flex items-center gap-1 transition-colors"
-          >
-            <MessageCircle size={11} />
-            {replying ? "Cancel" : "Reply"}
-          </button>
-
-          {comment.likes?.length > 0 && (
-            <span className="text-[11px] text-gray-400 flex items-center gap-0.5">
-              <Heart size={10} className="fill-rose-400 text-rose-400" />
-              {comment.likes.length}
-            </span>
-          )}
-
-          {comment.repliesCount > 0 && (
-            <span className="text-[11px] text-gray-400">
-              {comment.repliesCount} {comment.repliesCount === 1 ? "reply" : "replies"}
-            </span>
-          )}
-        </div>
-
-        {replying && (
-          <ReplyInput
-            onSubmit={async (text, image) => {
-              await onReplySubmit(comment._id, text, image);
-              setReplying(false);
-            }}
-            onCancel={() => setReplying(false)}
-          />
-        )}
-      </div>
-    </div>
-  );
-}
-
-/* ================= MAIN MODAL ================= */
-
+import Spinner from "./Spinner";
+import CommentItem from "./CommentItem";
+import { Comment } from "../interfaces/CommentI";
+import UserImage from "./UserImage";
 export default function CommentsModal({
   postId,
   postUser,
@@ -225,7 +36,8 @@ export default function CommentsModal({
   async function fetchComments() {
     setFetching(true);
     const res = await getAllPostCommentsApi(postId);
-    setComments(res?.data?.comments || []);
+    const comments:Comment[]=res?.data?.comments 
+    setComments(comments|| []);
     setFetching(false);
     return res
   }
@@ -328,7 +140,7 @@ export default function CommentsModal({
           )}
 
           <div className="flex items-end gap-3">
-            <UserImage src={currentUser?.photo} />
+            <UserImage src={currentUser?.photo||'/public/person'} />
 
             <div className="flex-1 bg-gray-100 rounded-2xl flex items-end gap-2 px-4 py-2.5 focus-within:ring-2 focus-within:ring-indigo-400/50 focus-within:bg-white border border-transparent focus-within:border-indigo-200 transition-all">
               <textarea
