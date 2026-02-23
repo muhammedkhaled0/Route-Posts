@@ -61,7 +61,6 @@ export default function CommentsModal({
     setText("");
     setImage(undefined);
     const x= await fetchComments();
-    console.log(x);
     
     setLoading(false);
     setNoOfComments(x?.data?.comments.length)
@@ -119,7 +118,7 @@ export default function CommentsModal({
             </div>
           ) : (
             comments.map((c) => (
-              <CommentItem key={c._id} comment={c} onReplySubmit={handleReplySubmit} />
+              <CommentItem key={c._id} comment={c} onReplySubmit={handleReplySubmit} postId={postId} userId={currentUser._id} postUserId={postUser._id}/>
             ))
           )}
         </div>
@@ -165,7 +164,6 @@ export default function CommentsModal({
                   <ImageIcon size={16} />
                   <input hidden type="file" accept="image/*" onChange={(e) => setImage(e.target.files?.[0])} />
                 </label>
-
                 <button
                   onClick={handleCommentSubmit}
                   disabled={loading || (!text.trim() && !image)}
@@ -178,20 +176,6 @@ export default function CommentsModal({
           </div>
         </div>
       </div>
-
-      {/* slide-up keyframe */}
-      <style>{`
-        @keyframes slideUp {
-          from { transform: translateY(100%); opacity: 0; }
-          to   { transform: translateY(0);    opacity: 1; }
-        }
-        @media (min-width: 640px) {
-          @keyframes slideUp {
-            from { transform: scale(0.95); opacity: 0; }
-            to   { transform: scale(1);    opacity: 1; }
-          }
-        }
-      `}</style>
     </div>
   );
 }
