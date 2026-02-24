@@ -1,7 +1,7 @@
 "use client";
 
 import { UserI } from "@/src/interfaces/UserI";
-import { getUserApi } from "@/src/services/UserServices";
+import { getMyProfileApi } from "@/src/services/UserServices";
 import React, { createContext, useEffect, useState } from "react";
 
 type UserContextType = {
@@ -20,7 +20,7 @@ export default function UserContextProvider({
   const [user, setUser] = useState<UserI | null>(null);
   useEffect(() => {
     async function fetchUser() {
-      const data = await getUserApi();
+      const data = await getMyProfileApi();
       setUser(data);
     }
     fetchUser();

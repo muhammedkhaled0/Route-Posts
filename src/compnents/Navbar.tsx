@@ -4,7 +4,10 @@ import logo from "@/src/app/icon.png"
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Home, Menu, MessageCircle, User } from "lucide-react";
+import { useContext } from "react";
+import { UserContext } from "./Contexts/UserContext";
 export default function Navbar() {
+  const {user}=useContext(UserContext)
   const pathName=usePathname()
   return <nav className="max-w-full bg-white shadow fixed top-0 start-0 end-0 z-50 ">
     <div className="myContainer py-2 flex justify-between align-baseline">
@@ -29,8 +32,8 @@ export default function Navbar() {
           </Link>
       </div>
       <div className="p-2 flex align-baseline gap-x-2 border rounded-2xl bg-[#f7faff] border-gray-300">
-          <Image src={logo} width={40} height={40} alt='User Photo' className="size-7 rounded-full"/>
-          <span className="text-sm font-extrabold text-gray-800 mt-1 hidden md:inline">Muhammed</span>
+          <Image src={user?.photo||'/public/person.jpg'}  width={40} height={40} alt='User Photo' className="size-7 rounded-full"/>
+          <span className="text-sm font-extrabold text-gray-800 mt-1 hidden md:inline capitalize">{user?.name}</span>
           <Menu className='size-3 mt-2'/>
       </div>
     </div>

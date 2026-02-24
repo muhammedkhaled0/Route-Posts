@@ -8,7 +8,7 @@ export interface UserResI {
 
 export interface UserI {
   cover: string
-  followers: any[]
+  followers: string[]
   _id: string
   name: string
   email: string
