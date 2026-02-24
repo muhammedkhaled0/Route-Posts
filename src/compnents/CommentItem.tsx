@@ -18,7 +18,8 @@ export default function CommentItem({
   userId,
   postUserId,
   isNotReply,
-onNewReply
+ onNewReply,
+fetchComments
 }: {
   postId: string;
   comment: Comment;
@@ -26,6 +27,7 @@ onNewReply
   postUserId:string;
   isNotReply:boolean;
   onNewReply?: (reply: any) => void;
+  fetchComments:()=>void;
 }) {
   const [replying, setReplying] = useState(false);
   const [editing, setEditing] = useState(false);
@@ -82,6 +84,7 @@ const handleLike = async () => {
               postId={postId}
               comment={comment}
               onEdit={() => setEditing(true)}
+              fetchComments={fetchComments}
             />
             }
           </div>

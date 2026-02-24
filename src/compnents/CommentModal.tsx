@@ -34,7 +34,7 @@ export default function CommentsModal({
 
   /* ================= API ================= */
 
-  async function fetchComments() {
+ async function fetchComments() {
     setFetching(true);
     const res = await getAllPostCommentsApi(postId);
     const comments:Comment[]=res?.data?.comments 
@@ -68,10 +68,6 @@ export default function CommentsModal({
           toast.success("Comment added successfully")
   }
 
-  async function handleReplySubmit(id: string, text: string, image?: File) {
-    await createReply(id, text, image);
-    await fetchComments();
-  }
 
   /* ================= UI ================= */
 
@@ -120,7 +116,7 @@ export default function CommentsModal({
             </div>
           ) : (
             comments.map((c) => (
-              <CommentItem isNotReply={true} key={c._id} comment={c} postId={postId} userId={currentUser._id} postUserId={postUser._id}/>
+              <CommentItem isNotReply={true} key={c._id} comment={c} postId={postId} userId={currentUser._id} postUserId={postUser._id} fetchComments={fetchComments}/>
             ))
           )}
         </div>
