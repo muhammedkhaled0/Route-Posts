@@ -1,23 +1,24 @@
-"use client"
 import { ImageIcon, Send } from "lucide-react";
-import { useState } from "react";
 import Spinner from "./Spinner";
+import { useState } from "react";
+
 export default function ReplyInput({
   onSubmit,
   onCancel,
+  loading = false, // <- هنا بضيفنا loading كـ prop اختياري
 }: {
   onSubmit: (text: string, image?: File) => Promise<void>;
   onCancel: () => void;
+  loading?: boolean; // <- عرفنا prop
 }) {
   const [text, setText] = useState("");
   const [image, setImage] = useState<File>();
-  const [loading, setLoading] = useState(false);
 
   async function handleSubmit() {
     if (!text.trim() && !image) return;
-    setLoading(true);
+    if (loading) return; // منع إعادة الإرسال أثناء التحميل
+    // هنا ممكن نرفع loading داخلي لو حابب، أو نخلي الخارج يتحكم
     await onSubmit(text, image);
-    setLoading(false);
     setText("");
     setImage(undefined);
   }

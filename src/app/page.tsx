@@ -33,7 +33,6 @@ export default function Home() {
   const [privacy, setPrivacy] = useState("public")
   const [loading, setLoading] = useState(false)
   const { user } = useContext(UserContext);
-  console.log(user);
   async function fetchPosts(type: "all" | "myPosts"|"following"|"saved") {
       setLoading(true)
   let posts: PostI[] = []

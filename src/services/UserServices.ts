@@ -20,8 +20,7 @@ export async function getUserSuggestionsApi(){
         "Content-Type": "application/json"
         }
     })
-    const data:any=await res.json()
-    console.log(data);
+    const data:any=await res.json();
     
     return data.data.suggestions
     
@@ -36,7 +35,5 @@ export async function createAndDeleteFollow(userId:string){
         }
     })
     const data:FollowResI=await res.json()
-    console.log(data);
-    
     return data
 } 

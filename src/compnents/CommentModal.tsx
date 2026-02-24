@@ -12,6 +12,7 @@ import Spinner from "./Spinner";
 import CommentItem from "./CommentItem";
 import { Comment } from "../interfaces/CommentI";
 import UserImage from "./UserImage";
+import toast from "react-hot-toast";
 export default function CommentsModal({
   postId,
   postUser,
@@ -64,6 +65,7 @@ export default function CommentsModal({
     
     setLoading(false);
     setNoOfComments(x?.data?.comments.length)
+          toast.success("Comment added successfully")
   }
 
   async function handleReplySubmit(id: string, text: string, image?: File) {
@@ -118,7 +120,7 @@ export default function CommentsModal({
             </div>
           ) : (
             comments.map((c) => (
-              <CommentItem key={c._id} comment={c} onReplySubmit={handleReplySubmit} postId={postId} userId={currentUser._id} postUserId={postUser._id}/>
+              <CommentItem isNotReply={true} key={c._id} comment={c} postId={postId} userId={currentUser._id} postUserId={postUser._id}/>
             ))
           )}
         </div>

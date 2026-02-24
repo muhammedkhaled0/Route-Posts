@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from '@/src/compnents/Navbar'
 import UserContextProvider from "../compnents/Contexts/UserContext";
+import { Toaster } from "react-hot-toast";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -36,6 +37,7 @@ export default function RootLayout({
         <Navbar/>
         {children}
         </UserContextProvider>
+          <Toaster />
       </body>
     </html>
   );
