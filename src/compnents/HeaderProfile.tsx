@@ -1,11 +1,12 @@
 "use client"
-import { Camera, Expand, Users, Mail } from 'lucide-react';
-import React, { useContext } from 'react'
+import { Camera, Expand, Users, Mail, ExpandIcon } from 'lucide-react';
+import React, { useContext, useState } from 'react'
 import { UserContext } from './Contexts/UserContext';
 import Image from 'next/image';
-
+import LightBox from './LightBox';
 export default function HeaderProfile() {
     const {user}=useContext(UserContext)
+    const [openCover, setOpenCover] = useState(false);
   return <div>
     <section className=" overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-[0_2px_10px_rgba(15,23,42,.06)] sm:rounded-[28px]">
         <div className="group/cover relative from-gray-600 to-gray-800 h-44  sm:h-52 lg:h-60 bg-[linear-gradient(112deg,#0f172a_0%,#1e3a5f_36%,#2b5178_72%,#5f8fb8_100%)]">
@@ -18,14 +19,22 @@ export default function HeaderProfile() {
               className="object-cover"
             />
           )}
-
-          {/* زرار تغيير الكوفر */}
           <div className="pointer-events-none absolute right-2 top-2 z-10 flex max-w-[90%] flex-wrap items-center justify-end gap-1.5 opacity-100 transition duration-200 sm:right-3 sm:top-3 sm:max-w-none sm:gap-2 sm:opacity-0 sm:group-hover/cover:opacity-100 sm:group-focus-within/cover:opacity-100">
             <label className="pointer-events-auto inline-flex cursor-pointer items-center gap-1 rounded-lg bg-black/45 px-2 py-1 text-[11px] font-bold text-white backdrop-blur transition hover:bg-black/60 sm:gap-1.5 sm:px-3 sm:py-1.5 sm:text-xs">
               <Camera size={13} strokeWidth={2} />
               Add cover
               <input accept="image/*" className="hidden" type="file" />
             </label>
+{user?.cover && (
+  <button
+    type="button"
+    onClick={() => setOpenCover(true)}
+    className="pointer-events-auto inline-flex items-center gap-1 rounded-lg bg-black/45 px-2 py-1 text-[11px] font-bold text-white backdrop-blur transition hover:bg-black/60 sm:gap-1.5 sm:px-3 sm:py-1.5 sm:text-xs"
+  >
+    <Expand size={13} strokeWidth={2} />
+    View cover
+  </button>
+)}
           </div>
         </div>
       <div className="relative -mt-12 px-3 pb-5 sm:-mt-16 sm:px-8 sm:pb-6">
@@ -126,6 +135,15 @@ export default function HeaderProfile() {
           </div>
         </div>
       </div>
+      {openCover && (
+        user?.cover
+        &&
+  <LightBox
+    src={user?.cover}
+    onClose={() => setOpenCover(false)}
+  />
+)}
     </section>
+
   </div>;
 }

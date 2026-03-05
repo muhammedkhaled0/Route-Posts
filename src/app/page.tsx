@@ -21,8 +21,7 @@ export default function Home() {
   const [postBody,setPostBody] = useState<string>('');
   const [postImg,setPostImg] = useState<string | null>(null);
   const [sendedPostImg,setSendedPostImg] = useState<File | null>(null);
-  function handleImage(e:React.ChangeEvent<HTMLInputElement>){
-       
+  function handleImage(e:React.ChangeEvent<HTMLInputElement>){     
     const img=e.target.files?.[0]
       if (!img) return;
     setPostImg(URL.createObjectURL(img))  
