@@ -34,15 +34,16 @@ export async function createAndDeleteFollow(userId:string){
     const data:FollowResI=await res.json()
     return data
 } 
-export async function UploadProfilePhoto(formData:FormData){
+export async function uploadProfileCover(formData:FormData){
     
-    const res=await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/users/upload-photo`,{
+ const res=await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/users/upload-cover`,{
         method:'PUT',
         body:formData,
         headers:{
-   "Authorization": `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiNjhmZWI1YmIxMzExZmQ3YjAzMTQ4YzE5IiwiaWF0IjoxNzcyNzEzNjA0LCJleHAiOjE3NzMzMTg0MDQsImF1ZCI6ImxpbmtlZC1wb3N0cy1jbGllbnQiLCJpc3MiOiJsaW5rZWQtcG9zdHMtYXBpIn0.esSYp_YZKOJiVrXxTIy5qbeBbHJ_jaJu0-Vga29thOE`,        "Content-Type": "application/json"
+   "Authorization": `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiNjhmZWI1YmIxMzExZmQ3YjAzMTQ4YzE5IiwiaWF0IjoxNzcyNzEzNjA0LCJleHAiOjE3NzMzMTg0MDQsImF1ZCI6ImxpbmtlZC1wb3N0cy1jbGllbnQiLCJpc3MiOiJsaW5rZWQtcG9zdHMtYXBpIn0.esSYp_YZKOJiVrXxTIy5qbeBbHJ_jaJu0-Vga29thOE`
         }
     })
     const data=await res.json()
+
     return data 
 } 

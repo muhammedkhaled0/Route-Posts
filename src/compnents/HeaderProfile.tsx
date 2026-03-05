@@ -4,26 +4,65 @@ import React, { useContext, useState } from 'react'
 import { UserContext } from './Contexts/UserContext';
 import Image from 'next/image';
 import LightBox from './LightBox';
+import { uploadProfileCover } from '../services/UserServices';
 export default function HeaderProfile() {
+const [previewCover, setPreviewCover] = useState<string | null>(null);
+const [selectedFile, setSelectedFile] = useState<File | null>(null);
+const [isUploading, setIsUploading] = useState(false);
+function handleImage(e: React.ChangeEvent<HTMLInputElement>) {
+  const file = e.target.files?.[0];
+  if (!file) return;
+  setSelectedFile(file);
+  setPreviewCover(URL.createObjectURL(file));
+}
+
+async function handleSave() {  
+  if (!selectedFile) return;
+  try {
+    setIsUploading(true);
+
+    const formData = new FormData();
+    formData.append("cover", selectedFile);
+    formData.append("privacy", "public");
+    await uploadProfileCover(formData);
+
+    setPreviewCover(null);
+    setSelectedFile(null);
+  } finally {
+    setIsUploading(false);
+  }
+}
+
+function handleDiscard() {
+  setPreviewCover(null);
+  setSelectedFile(null);
+}
     const {user}=useContext(UserContext)
     const [openCover, setOpenCover] = useState(false);
   return <div>
     <section className=" overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-[0_2px_10px_rgba(15,23,42,.06)] sm:rounded-[28px]">
         <div className="group/cover relative from-gray-600 to-gray-800 h-44  sm:h-52 lg:h-60 bg-[linear-gradient(112deg,#0f172a_0%,#1e3a5f_36%,#2b5178_72%,#5f8fb8_100%)]">
-          {user?.cover && (
-            <Image
-              src={user?.cover}
-              alt="cover"
-              fill
-              priority
-              className="object-cover"
-            />
-          )}
+{previewCover ? (
+  <img
+    src={previewCover}
+    className="absolute inset-0 h-full w-full object-cover "
+  />
+) : (
+  user?.cover && (
+    <Image
+      src={user.cover}
+      alt="cover"
+      fill
+      priority
+      className="object-cover"
+    />
+  )
+)}
           <div className="pointer-events-none absolute right-2 top-2 z-10 flex max-w-[90%] flex-wrap items-center justify-end gap-1.5 opacity-100 transition duration-200 sm:right-3 sm:top-3 sm:max-w-none sm:gap-2 sm:opacity-0 sm:group-hover/cover:opacity-100 sm:group-focus-within/cover:opacity-100">
             <label className="pointer-events-auto inline-flex cursor-pointer items-center gap-1 rounded-lg bg-black/45 px-2 py-1 text-[11px] font-bold text-white backdrop-blur transition hover:bg-black/60 sm:gap-1.5 sm:px-3 sm:py-1.5 sm:text-xs">
               <Camera size={13} strokeWidth={2} />
               Add cover
-              <input accept="image/*" className="hidden" type="file" />
+              <input accept="image/*" className="hidden" type="file" onChange={(e)=>handleImage(e)}/>
             </label>
 {user?.cover && (
   <button
@@ -34,6 +73,25 @@ export default function HeaderProfile() {
     <Expand size={13} strokeWidth={2} />
     View cover
   </button>
+)}
+{previewCover && (
+  <>
+    <button
+      onClick={handleSave}
+      disabled={isUploading}
+      className="pointer-events-auto rounded-lg bg-green-600 px-3 py-1 text-xs font-bold text-white hover:bg-green-700 disabled:opacity-60"
+    >
+      {isUploading ? "Saving..." : "Save"}
+    </button>
+
+    <button
+      onClick={handleDiscard}
+      disabled={isUploading}
+      className="pointer-events-auto rounded-lg bg-red-600 px-3 py-1 text-xs font-bold text-white hover:bg-red-700 disabled:opacity-60"
+    >
+      Discard
+    </button>
+  </>
 )}
           </div>
         </div>
@@ -139,7 +197,7 @@ export default function HeaderProfile() {
         user?.cover
         &&
   <LightBox
-    src={user?.cover}
+    src= {user?.cover}
     onClose={() => setOpenCover(false)}
   />
 )}
