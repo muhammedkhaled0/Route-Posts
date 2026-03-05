@@ -14,9 +14,12 @@ import { useState } from "react";
 import { LikeResI } from "../interfaces/LikeI";
 import CommentsModal from "./CommentModal";
 import { UserI } from "../interfaces/UserI";
-
-export default function PostCard({ post,currentUserId,currentUser }: { post: PostI,currentUserId:any,currentUser:UserI|null }) {
-    const [showComments, setShowComments] = useState(false);
+import { usePathname } from "next/navigation";
+export default function PostCard({ post,currentUserId,currentUser,className }
+  : { post: PostI,currentUserId:any,currentUser:UserI|null,className?:string }) {
+  const pathname = usePathname();
+  const isProfile = pathname.includes("profile");
+  const [showComments, setShowComments] = useState(false);
   const handleOpen = () => setShowComments(true);
   const handleClose = () => setShowComments(false); 
   const [noOfLikes,setNoOfLikes] =useState(post.likesCount);
@@ -72,7 +75,9 @@ export default function PostCard({ post,currentUserId,currentUser }: { post: Pos
 
       {/* Image (اختياري) */}
       {post.image && (
-        <div className="w-full h-[320px] relative">
+        <div className={`w-full relative ${
+            isProfile ? "lg:h-[600px] md:h-[500px] sm:h-[400px] h-350" : "h-[350px]"
+          }`}>
           <Image src={post.image} alt="post image" fill className="object-cover" />
         </div>
       )}
