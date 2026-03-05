@@ -81,7 +81,11 @@ export default function Home() {
   </li>
   <li 
     className={`flex gap-x-2 py-1 px-2 rounded-xl cursor-pointer ${feedType === "myPosts" ? "bg-blue-100 text-blue-500" : ""}`}
-    onClick={() => { setFeedType("myPosts"); fetchPosts("myPosts") }}
+    onClick={() => {
+  if (!user?._id) return
+  setFeedType("myPosts")
+  fetchPosts("myPosts")
+}}
   >
     <SparkleIcon className='mt-0.5 size-5'/> My Posts
   </li>
