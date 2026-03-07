@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { UserI } from "../interfaces/UserI";
 import { createAndDeleteFollow, getUserSuggestionsApi } from "../services/UserServices";
 import { FollowResI } from "../interfaces/FollowI";
+import Link from "next/link";
 
 export default function SuggestedFriends(props:any) {
 
@@ -81,6 +82,7 @@ export default function SuggestedFriends(props:any) {
             >
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
+                  <Link href={'/profile/'+suggestion._id}>
                   <div className="w-10 h-10 rounded-full bg-gray-300 overflow-hidden">
                     <img
                       src={suggestion.photo}
@@ -88,9 +90,12 @@ export default function SuggestedFriends(props:any) {
                       className="w-full h-full object-cover"
                     />
                   </div>
+                  </Link>
+                    <Link href={'/profile/'+suggestion._id}>
                   <div>
                     <p className="font-semibold text-sm text-gray-800">{suggestion.name}</p>
                   </div>
+                  </Link>
                 </div>
                 <button onClick={
                   async()=>{
