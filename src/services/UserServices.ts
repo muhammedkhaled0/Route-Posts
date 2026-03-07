@@ -1,5 +1,6 @@
 import { FollowResI } from "../interfaces/FollowI"
 import { UserResI } from "../interfaces/UserI"
+import { UserResFailI, UserResSuccI } from "../interfaces/UserProfileI"
 
 export async function getMyProfileApi(){
     const res=await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/users/profile-data`,{
@@ -10,6 +11,17 @@ export async function getMyProfileApi(){
     const data:UserResI=await res.json()
 
     return data.data.user
+    
+} 
+export async function getUserProfileApi(userId:string){
+    const res=await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/users/${userId}/profile`,{
+        headers:{
+   "Authorization": `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiNjhmZWI1YmIxMzExZmQ3YjAzMTQ4YzE5IiwiaWF0IjoxNzcyNzEzNjA0LCJleHAiOjE3NzMzMTg0MDQsImF1ZCI6ImxpbmtlZC1wb3N0cy1jbGllbnQiLCJpc3MiOiJsaW5rZWQtcG9zdHMtYXBpIn0.esSYp_YZKOJiVrXxTIy5qbeBbHJ_jaJu0-Vga29thOE`,        "Content-Type": "application/json"
+        }
+    })
+    const data:UserResSuccI|UserResFailI=await res.json()
+
+    return data
     
 } 
 export async function getUserSuggestionsApi(){

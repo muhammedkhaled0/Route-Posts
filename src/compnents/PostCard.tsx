@@ -16,6 +16,7 @@ import CommentsModal from "./CommentModal";
 import { UserI } from "../interfaces/UserI";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
+import { timeAgo } from "../helpers/TimeAgo";
 export default function PostCard({ post,currentUserId,currentUser,className }
   : { post: PostI,currentUserId:any,currentUser:UserI|null,className?:string }) {
   const pathname = usePathname();
@@ -28,14 +29,14 @@ export default function PostCard({ post,currentUserId,currentUser,className }
   const [noOfShares,setNoOfShers] =useState(post.sharesCount);
   const [imgSrc, setImgSrc] = useState(post?.user.photo || "/person.jpg");
   const [isLiked,setIsLiked] =useState(post.likes?.some(id => id === currentUserId));
-  const timeAgo = post.createdAt ? getTimeAgo(post.createdAt) : "";
+  const timeAgoo = post.createdAt ? timeAgo(post.createdAt) : "";
   return (
     <div className="bg-white rounded-lg shadow-sm overflow-hidden">
       {/* Header */}
       <div className="flex items-center justify-between px-4 pt-3">
         <div className="flex items-center gap-2">
           {/* Avatar */}
-          <Link  href={'profile/'+post.user._id}>
+          <Link  href={currentUser?._id==post.user._id?'/profile':`/profile/${post.user._id}`}>
             <Image
       src={imgSrc}
       onError={() => setImgSrc("/person.jpg")}
@@ -47,7 +48,7 @@ export default function PostCard({ post,currentUserId,currentUser,className }
           </Link>
           {/* Meta */}
           <div className="flex flex-col">
-                  <Link  href={'profile/'+post.user._id}>
+          <Link  href={currentUser?._id==post.user._id?'/profile':`/profile/${post.user._id}`}>
             <span className="text-[15px] font-semibold text-[#050505]">
               {post.user.name}
             </span>
@@ -56,8 +57,8 @@ export default function PostCard({ post,currentUserId,currentUser,className }
               {post.user.name && <span>{post.user.name}</span>}
               {post.user.name && <span className="text-[6px]">·</span>}
 
-              {timeAgo && <span>{timeAgo}</span>}
-              {timeAgo && <span className="text-[6px]">·</span>}
+              {timeAgoo && <span>{timeAgoo}</span>}
+              {timeAgoo && <span className="text-[6px]">·</span>}
 
               <Globe size={12} />
               <span>{post.privacy}</span>
@@ -130,18 +131,3 @@ export default function PostCard({ post,currentUserId,currentUser,className }
   );
 }
 
-/* =========================
-   Helper
-========================= */
-function getTimeAgo(date: string) {
-  const diff = Date.now() - new Date(date).getTime();
-
-  const m = Math.floor(diff / 60000);
-  if (m < 60) return `${m}m`;
-
-  const h = Math.floor(m / 60);
-  if (h < 24) return `${h}h`;
-
-  const d = Math.floor(h / 24);
-  return `${d}d`;
-}
