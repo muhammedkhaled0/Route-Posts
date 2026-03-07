@@ -5,6 +5,7 @@ import PostCard from "@/src/compnents/PostCard";
 import PostSkeleton from "@/src/compnents/PostSkeleton";
 import { PostI } from "@/src/interfaces/PostI";
 import { getUserPostsApi } from "@/src/services/PostServices";
+import Link from "next/link";
 import { useContext, useEffect, useState } from "react";
 export  default function Profile() {
   const {user}=useContext(UserContext) 
@@ -20,7 +21,7 @@ useEffect(() => {
   fetchPosts();
 }, [user]);
   return <div  className="mx-auto lg:w-3/4 sm:w-[90%] w-[95%]  body-space">
-    <HeaderProfile/>
+    <HeaderProfile />
    <div className="mt-7 flex flex-col gap-y-7">
        {
       posts?

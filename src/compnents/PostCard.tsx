@@ -15,6 +15,7 @@ import { LikeResI } from "../interfaces/LikeI";
 import CommentsModal from "./CommentModal";
 import { UserI } from "../interfaces/UserI";
 import { usePathname } from "next/navigation";
+import Link from "next/link";
 export default function PostCard({ post,currentUserId,currentUser,className }
   : { post: PostI,currentUserId:any,currentUser:UserI|null,className?:string }) {
   const pathname = usePathname();
@@ -34,7 +35,8 @@ export default function PostCard({ post,currentUserId,currentUser,className }
       <div className="flex items-center justify-between px-4 pt-3">
         <div className="flex items-center gap-2">
           {/* Avatar */}
-  <Image
+          <Link  href={'profile/'+post.user._id}>
+            <Image
       src={imgSrc}
       onError={() => setImgSrc("/person.jpg")}
       width={50}
@@ -42,12 +44,14 @@ export default function PostCard({ post,currentUserId,currentUser,className }
       alt="user photo"
       className="size-8 rounded-full"
     />
-
+          </Link>
           {/* Meta */}
           <div className="flex flex-col">
+                  <Link  href={'profile/'+post.user._id}>
             <span className="text-[15px] font-semibold text-[#050505]">
               {post.user.name}
             </span>
+            </Link>
             <div className="flex items-center gap-1 text-[12px] text-[#65676b]">
               {post.user.name && <span>{post.user.name}</span>}
               {post.user.name && <span className="text-[6px]">·</span>}

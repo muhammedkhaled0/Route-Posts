@@ -30,7 +30,7 @@ async function getCroppedBlob(imageSrc: string, pixelCrop: Area): Promise<Blob> 
 export default function HeaderProfile() {
 
   const { user } = useContext(UserContext);
-
+  
   const [previewCover, setPreviewCover] = useState<string | null>(null);
   const [selectedCover, setSelectedCover] = useState<File | null>(null);
   const [isUploadingCover, setIsUploadingCover] = useState(false);
