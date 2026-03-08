@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { getAllCommentsRepliesApi } from "../services/CommentServices";
 import CommentItem from "./CommentItem";
 import Spinner from "./Spinner";
+import { Comment } from "../interfaces/CommentI";
 
 export default function RepliesToggle({
   postId,
@@ -60,7 +61,7 @@ export default function RepliesToggle({
 
       {showReplies && isNotReply && !loading && (
         <div className="flex flex-col gap-2 mt-2">
-          {replies.map((reply: any) => (
+          {replies.map((reply: Comment) => (
             <CommentItem
               key={reply._id}
               postId={postId}
@@ -68,7 +69,8 @@ export default function RepliesToggle({
               userId={userId}
               postUserId={postUserId}
               isNotReply={false}
-              onNewReply={() => {}} // ممكن تسيبه فاضي للردود التانية
+              onNewReply={() => {}} 
+              fetchComments={() => {}}
             />
           ))}
         </div>
