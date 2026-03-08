@@ -48,7 +48,7 @@ export async function createAndDeleteFollow(userId:string){
 } 
 export async function uploadProfileCover(formData:FormData){
     
- const res=await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/users/upload-photo`,{
+ const res=await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/users/upload-cover`,{
         method:'PUT',
         body:formData,
         headers:{
