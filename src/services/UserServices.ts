@@ -35,6 +35,18 @@ export async function getUserSuggestionsApi(){
     return data.data.suggestions
     
 } 
+export async function getUserNotificationsApi(){
+    const res=await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/notifications?unread=false&page=1&limit=10`,{
+        headers:{
+   "Authorization": `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiNjhmZWI1YmIxMzExZmQ3YjAzMTQ4YzE5IiwiaWF0IjoxNzcyNzEzNjA0LCJleHAiOjE3NzMzMTg0MDQsImF1ZCI6ImxpbmtlZC1wb3N0cy1jbGllbnQiLCJpc3MiOiJsaW5rZWQtcG9zdHMtYXBpIn0.esSYp_YZKOJiVrXxTIy5qbeBbHJ_jaJu0-Vga29thOE`,        "Content-Type": "application/json"
+        }
+    })
+    const data:any=await res.json();
+    console.log(data);
+    
+    return data.data.notifications
+    
+} 
 export async function createAndDeleteFollow(userId:string){
     
     const res=await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/users/${userId}/follow`,{
