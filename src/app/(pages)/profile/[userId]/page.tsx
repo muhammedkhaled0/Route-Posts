@@ -9,6 +9,8 @@ import { UserContext } from "@/src/compnents/Contexts/UserContext";
 import PostCard from "@/src/compnents/PostCard";
 import { PostI } from "@/src/interfaces/PostI";
 import { getUserPostsApi } from "@/src/services/PostServices";
+import Loading from "@/src/compnents/Loading";
+import PostSkeleton from "@/src/compnents/PostSkeleton";
 export default function UserProfile() {
     const {user}=useContext(UserContext);
     const {userId}:{userId:string}= useParams();
@@ -28,7 +30,7 @@ export default function UserProfile() {
     useEffect(()=>{
         getUser()
     },[userId])
-    if(!res) return null
+    if(!res) return <Loading/>
   return <>
   {res?.success==false?
   <div className="w-4/5 m-auto body-space bg-red-50 border border-red-300 text-red-600 px-4 py-2 rounded-lg">
@@ -97,7 +99,7 @@ export default function UserProfile() {
       </div>
     </div>
   }
-    {userPosts&&
+    {userPosts?
         <div>
             {
             userPosts.map((post)=>
@@ -106,7 +108,7 @@ export default function UserProfile() {
                 </div>
             )
             }
-    </div>
+    </div>:<PostSkeleton className="mx-auto lg:w-3/4 sm:w-[90%] w-[95%] mt-8"/>
 }
   </>
 }

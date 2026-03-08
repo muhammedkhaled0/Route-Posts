@@ -93,7 +93,7 @@ export default function CommentsModal({
 
           <button
             onClick={onClose}
-            className="absolute right-4 top-1/2 -translate-y-1/2 w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 text-gray-600 transition-colors"
+            className="cursor-pointer absolute right-4 top-1/2 -translate-y-1/2 w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 text-gray-600 transition-colors"
           >
             <X size={16} strokeWidth={2.5} />
           </button>

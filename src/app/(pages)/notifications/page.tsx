@@ -1,6 +1,6 @@
-
+import Loading from "@/src/compnents/Loading";
 export default function Notifications() {
   return (
-    <div>Notifications</div>
+    <Loading/>
   )
 }

@@ -14,6 +14,7 @@ import { PostI } from "../interfaces/PostI";
 import PostSkeleton from "../compnents/PostSkeleton";
 import { UserContext } from "../compnents/Contexts/UserContext";
 import CommentsModal from "../compnents/CommentModal";
+import Loading from "../compnents/Loading";
 export default function Home() {
 
   const [posting, setPosting] = useState(false)
@@ -68,6 +69,9 @@ export default function Home() {
   setPostImg(null)
   fetchPosts(feedType)
   }
+  if (!user) {
+  return <Loading />
+}
   return <>
   <div className=" myContainer body-space grid items-start  lg:grid-cols-10 grid-cols-1 lg:gap-5 gap-y-5 overflow-visible ">
     <div className="left-sec lg:order-1 order-1 bg-white p-4 rounded-xl shadow lg:sticky lg:top-27 lg:col-span-2 mt-2 h-fit ">

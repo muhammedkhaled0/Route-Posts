@@ -26,3 +26,63 @@ body{
 .body-space{
   margin-top: 90px;
 }
+.loader-inner{
+background: linear-gradient(135deg,#23C4F8,#275EFE);
+box-shadow:0 4px 6px rgba(39,94,254,0.28);
+perspective:600px;
+}
+
+.page{
+position:absolute;
+top:10px;
+left:10px;
+transform-origin:100% 50%;
+color:rgba(255,255,255,0.36);
+opacity:0;
+transform:rotateY(180deg);
+animation-duration:3s;
+animation-timing-function:ease;
+animation-iteration-count:infinite;
+}
+
+.page:first-child{
+opacity:1;
+transform:rotateY(0deg);
+}
+
+.page:last-child{
+opacity:1;
+}
+
+.page-2{animation-name:page2;color:rgba(255,255,255,0.52);}
+.page-3{animation-name:page3;color:rgba(255,255,255,0.52);}
+.page-4{animation-name:page4;color:rgba(255,255,255,0.52);}
+.page-5{animation-name:page5;color:rgba(255,255,255,0.52);}
+
+@keyframes page2{
+0%{transform:rotateY(180deg);opacity:0;}
+20%{opacity:1;}
+35%,100%{opacity:0;}
+50%,100%{transform:rotateY(0deg);}
+}
+
+@keyframes page3{
+15%{transform:rotateY(180deg);opacity:0;}
+35%{opacity:1;}
+50%,100%{opacity:0;}
+65%,100%{transform:rotateY(0deg);}
+}
+
+@keyframes page4{
+30%{transform:rotateY(180deg);opacity:0;}
+50%{opacity:1;}
+65%,100%{opacity:0;}
+80%,100%{transform:rotateY(0deg);}
+}
+
+@keyframes page5{
+45%{transform:rotateY(180deg);opacity:0;}
+65%{opacity:1;}
+80%,100%{opacity:0;}
+95%,100%{transform:rotateY(0deg);}
+}

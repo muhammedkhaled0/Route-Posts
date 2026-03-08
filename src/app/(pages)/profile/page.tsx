@@ -1,6 +1,7 @@
 "use client"
 import { UserContext } from "@/src/compnents/Contexts/UserContext";
 import HeaderProfile from "@/src/compnents/HeaderProfile";
+import Loading from "@/src/compnents/Loading";
 import PostCard from "@/src/compnents/PostCard";
 import PostSkeleton from "@/src/compnents/PostSkeleton";
 import { PostI } from "@/src/interfaces/PostI";
@@ -20,6 +21,9 @@ useEffect(() => {
 
   fetchPosts();
 }, [user]);
+  if (!user) {
+  return <Loading />
+}
   return <div  className="mx-auto lg:w-3/4 sm:w-[90%] w-[95%]  body-space">
     <HeaderProfile />
    <div className="mt-7 flex flex-col gap-y-7">
