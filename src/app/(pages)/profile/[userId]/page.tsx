@@ -72,7 +72,7 @@ export default function UserProfile() {
   onClick={async()=>{
     try{
       setLoading(true)
-      await createAndDeleteFollow(res.data.user._id)
+      const x=await createAndDeleteFollow(res.data.user._id)
      setIsFollowing(!isFollowing)
 
     }finally{
