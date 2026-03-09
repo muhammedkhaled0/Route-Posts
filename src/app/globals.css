@@ -86,3 +86,8 @@ opacity:1;
 80%,100%{opacity:0;}
 95%,100%{transform:rotateY(0deg);}
 }
+input[type="date"]::-webkit-calendar-picker-indicator {
+  position: absolute;
+  right: 10px; 
+  cursor: pointer;
+}

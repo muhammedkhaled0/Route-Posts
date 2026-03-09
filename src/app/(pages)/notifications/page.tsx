@@ -1,4 +1,4 @@
-import Loading from "@/src/compnents/Loading";
+import Loading from "@/src/components/Loading";
 import { getUserNotificationsApi } from "@/src/services/UserServices";
 export default async function Notifications() {
   const notifications=await getUserNotificationsApi()

@@ -1,9 +1,9 @@
 "use client"
-import { UserContext } from "@/src/compnents/Contexts/UserContext";
-import HeaderProfile from "@/src/compnents/HeaderProfile";
-import Loading from "@/src/compnents/Loading";
-import PostCard from "@/src/compnents/PostCard";
-import PostSkeleton from "@/src/compnents/PostSkeleton";
+import { UserContext } from "@/src/components/Contexts/UserContext";
+import HeaderProfile from "@/src/components/HeaderProfile";
+import Loading from "@/src/components/Loading";
+import PostCard from "@/src/components/PostCard";
+import PostSkeleton from "@/src/components/PostSkeleton";
 import { PostI } from "@/src/interfaces/PostI";
 import { getUserPostsApi } from "@/src/services/PostServices";
 import Link from "next/link";

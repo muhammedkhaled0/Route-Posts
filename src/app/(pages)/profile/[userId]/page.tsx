@@ -5,12 +5,12 @@ import { useContext, useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { createAndDeleteFollow, getUserProfileApi } from "@/src/services/UserServices";
 import { UserResFailI, UserResSuccI } from "@/src/interfaces/UserProfileI";
-import { UserContext } from "@/src/compnents/Contexts/UserContext";
-import PostCard from "@/src/compnents/PostCard";
+import { UserContext } from "@/src/components/Contexts/UserContext";
+import PostCard from "@/src/components/PostCard";
 import { PostI } from "@/src/interfaces/PostI";
 import { getUserPostsApi } from "@/src/services/PostServices";
-import Loading from "@/src/compnents/Loading";
-import PostSkeleton from "@/src/compnents/PostSkeleton";
+import Loading from "@/src/components/Loading";
+import PostSkeleton from "@/src/components/PostSkeleton";
 export default function UserProfile() {
     const {user}=useContext(UserContext);
     const {userId}:{userId:string}= useParams();

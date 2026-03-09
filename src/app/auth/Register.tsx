@@ -1,47 +1,18 @@
-import Dropdown from "@/src/compnents/Dropdown";
+"use clinet"
+import Dropdown from "@/src/components/Dropdown";
+import { schema } from "@/src/helpers/RegisterSchema";
+import { RegisterInputs } from "@/src/interfaces/RegisterInputsType";
+import { registerApi } from "@/src/services/AuthServices";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { AtSign, Key, User } from "lucide-react";
-import React from "react";
+import { AtSign, Calendar, Key, Loader, LoaderCircle, User } from "lucide-react";
+import { useRouter } from "next/navigation";
+import React, { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import * as z from "zod";
-type RegisterInputs = {
-  name: string;
-  username: string;
-  email: string;
-  dateOfBirth: string;
-  gender: string;
-  password: string;
-  rePassword: string;
-};
-
-const schema = z
-  .object({
-    name: z.string().nonempty("Name is Required"),
-
-    username: z.string(),
-    email: z
-      .string()
-      .nonempty("Email is Required")
-      .regex(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/, "Invalid Email"),
-
-    dateOfBirth: z.string().nonempty("Date of birth is required"),
-
-    gender: z.string().nonempty("Gender is required"),
-    password: z
-      .string()
-      .nonempty("Password Is Required")
-      .regex(
-        /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/,
-        "Password should contain capital, small, number and special char",
-      ),
-
-    rePassword: z.string().nonempty("Confirm password is required"),
-  })
-  .refine((data) => data.password === data.rePassword, {
-    message: "Passwords don't match",
-    path: ["rePassword"],
-  });
 export default function Register() {
+  const navigator=useRouter()
+  const [loading, setLoading] = useState(false);
+  const [apiError, setApiError] = useState<string | null>(null);
   const {
     register,
     handleSubmit,
@@ -51,7 +22,7 @@ export default function Register() {
       name: "",
       username: "",
       email: "",
-      dateOfBirth: "",
+      dateOfBirth:"",
       gender: "",
       password: "",
       rePassword: "",
@@ -60,8 +31,25 @@ export default function Register() {
     mode: "onBlur",
     reValidateMode: "onBlur",
   });
+
   async function sendData(data: RegisterInputs) {
-    console.log(data);
+    setLoading(true)
+    setApiError(null)
+    const  res=await registerApi(data)
+    if(typeof res=="object"&&"success" in res  && res.success==true ){
+      navigator.push('/')
+      setApiError(null)
+    }
+    else if(typeof res=="object"&&"success" in res &&res.success==false){
+      setApiError(res.message)
+    }
+    else if(res instanceof Error){
+          setApiError(res.message);
+    }
+    else{
+        setApiError(res);
+    }
+    setLoading(false)
   }
   return (
     <>
@@ -100,19 +88,21 @@ export default function Register() {
         {touchedFields.email && (
           <p className="text-red-500">{errors.email?.message}</p>
         )}
+
+        <div className="relative">
+          <Calendar className="size-5 text-gray-400 absolute top-1/2 -translate-1/2 start-4" />
+          <input className="input" placeholder="Date Of Birth"  type="date"{...register("dateOfBirth")} />
+        </div>
+        {touchedFields.dateOfBirth && (
+          <p className="text-red-500">{errors.dateOfBirth?.message}</p>
+        )}
         <Dropdown
   register={register}
   name="gender"
   touched={touchedFields.gender}
   error={errors.gender?.message}
 />
-        <div className="relative">
-          <AtSign className="size-5 text-gray-400 absolute top-1/2 -translate-1/2 start-4" />
-          <input className="input" placeholder="Email" {...register("email")} />
-        </div>
-        {touchedFields.email && (
-          <p className="text-red-500">{errors.email?.message}</p>
-        )}
+
         <div className="relative">
           <Key className="size-5 text-gray-400 absolute top-1/2 -translate-1/2 start-5" />
 
@@ -140,11 +130,14 @@ export default function Register() {
         {touchedFields.rePassword && (
           <p className="text-red-500">{errors.rePassword?.message}</p>
         )}
-        <button
-          type="submit"
-          className="w-full bg-dark-Blue py-3 text-white font-extrabold rounded-xl cursor-pointer hover:bg-[#04216a] transition-all duration-500"
-        >
-          Register
+         {apiError&&<p className="text-red-500 text-center text-xl font-bold -mt-5">{apiError}</p>}
+<button
+  type="submit"
+  disabled={loading}
+  className={`w-full bg-dark-Blue py-3 text-white font-extrabold rounded-xl cursor-pointer hover:bg-[#04216a] transition-all duration-500 ${
+    loading ? "opacity-50 cursor-not-allowed" : ""
+  }`}>
+          {loading?<div className="flex justify-center w-full gap-x-4">Register <LoaderCircle className="animate-spin"/> </div>:"Register"}
         </button>
       </form>
     </>

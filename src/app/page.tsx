@@ -1,20 +1,20 @@
 "use client"
 import Image from "next/image";
 import Logo from "@/src/app/icon.png"
-import Dropdown from "../compnents/Dropdown";
+import Dropdown from "../components/Dropdown";
 import Picker from "@emoji-mart/react"
 import data from "@emoji-mart/data" 
 import React, { useContext, useEffect, useRef, useState } from "react";
-import PrivacyDropdown from "../compnents/PrivacyDropdown";
-import SuggestedFriends from "../compnents/SuggestedFriends";
-import PostCard from "../compnents/PostCard";
+import PrivacyDropdown from "../components/PrivacyDropdown";
+import SuggestedFriends from "../components/SuggestedFriends";
+import PostCard from "../components/PostCard";
 import { AddPostsApi, getAllPostsApi, getFollowingPostsApi, getSavedPostsApi, getUserPostsApi } from "../services/PostServices";
 import { Bookmark, EarthIcon, ImagePlay, Newspaper, Send, Smile, SparkleIcon, X } from "lucide-react";
 import { PostI } from "../interfaces/PostI";
-import PostSkeleton from "../compnents/PostSkeleton";
-import { UserContext } from "../compnents/Contexts/UserContext";
-import CommentsModal from "../compnents/CommentModal";
-import Loading from "../compnents/Loading";
+import PostSkeleton from "../components/PostSkeleton";
+import { UserContext } from "../components/Contexts/UserContext";
+import CommentsModal from "../components/CommentModal";
+import Loading from "../components/Loading";
 export default function Home() {
 
   const [posting, setPosting] = useState(false)
