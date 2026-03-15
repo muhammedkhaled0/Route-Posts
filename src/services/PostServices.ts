@@ -3,7 +3,7 @@ import { PostI } from "../interfaces/PostI";
 export async function getAllPostsApi(){
     const res=await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/posts`,{
         headers:{
-   "Authorization": `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiNjhmZWI1YmIxMzExZmQ3YjAzMTQ4YzE5IiwiaWF0IjoxNzcyNzEzNjA0LCJleHAiOjE3NzMzMTg0MDQsImF1ZCI6ImxpbmtlZC1wb3N0cy1jbGllbnQiLCJpc3MiOiJsaW5rZWQtcG9zdHMtYXBpIn0.esSYp_YZKOJiVrXxTIy5qbeBbHJ_jaJu0-Vga29thOE`,        "Content-Type": "application/json"
+   "Authorization": `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiNjhmZWI1YmIxMzExZmQ3YjAzMTQ4YzE5IiwiaWF0IjoxNzczNTg5MjEyLCJleHAiOjE3NzQxOTQwMTIsImF1ZCI6ImxpbmtlZC1wb3N0cy1jbGllbnQiLCJpc3MiOiJsaW5rZWQtcG9zdHMtYXBpIn0.YHXQHxWwFYFB_O7Z65o2bVIjgTazPJ8k_p6TeQN82XE`,        "Content-Type": "application/json"
         }
     })
     const data:any=await res.json()
@@ -14,7 +14,7 @@ export async function getAllPostsApi(){
 export async function getUserPostsApi(userId:string){
     const res=await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/users/${userId}/posts`,{
         headers:{
-   "Authorization": `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiNjhmZWI1YmIxMzExZmQ3YjAzMTQ4YzE5IiwiaWF0IjoxNzcyNzEzNjA0LCJleHAiOjE3NzMzMTg0MDQsImF1ZCI6ImxpbmtlZC1wb3N0cy1jbGllbnQiLCJpc3MiOiJsaW5rZWQtcG9zdHMtYXBpIn0.esSYp_YZKOJiVrXxTIy5qbeBbHJ_jaJu0-Vga29thOE`,        "Content-Type": "application/json"
+   "Authorization": `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiNjhmZWI1YmIxMzExZmQ3YjAzMTQ4YzE5IiwiaWF0IjoxNzczNTg5MjEyLCJleHAiOjE3NzQxOTQwMTIsImF1ZCI6ImxpbmtlZC1wb3N0cy1jbGllbnQiLCJpc3MiOiJsaW5rZWQtcG9zdHMtYXBpIn0.YHXQHxWwFYFB_O7Z65o2bVIjgTazPJ8k_p6TeQN82XE`,        "Content-Type": "application/json"
         }
     })
     const data:any=await res.json()
@@ -25,7 +25,7 @@ export async function getUserPostsApi(userId:string){
 export async function getFollowingPostsApi(){
     const res=await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/posts/feed?only=following`,{
         headers:{
-   "Authorization": `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiNjhmZWI1YmIxMzExZmQ3YjAzMTQ4YzE5IiwiaWF0IjoxNzcyNzEzNjA0LCJleHAiOjE3NzMzMTg0MDQsImF1ZCI6ImxpbmtlZC1wb3N0cy1jbGllbnQiLCJpc3MiOiJsaW5rZWQtcG9zdHMtYXBpIn0.esSYp_YZKOJiVrXxTIy5qbeBbHJ_jaJu0-Vga29thOE`,        "Content-Type": "application/json"
+   "Authorization": `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiNjhmZWI1YmIxMzExZmQ3YjAzMTQ4YzE5IiwiaWF0IjoxNzczNTg5MjEyLCJleHAiOjE3NzQxOTQwMTIsImF1ZCI6ImxpbmtlZC1wb3N0cy1jbGllbnQiLCJpc3MiOiJsaW5rZWQtcG9zdHMtYXBpIn0.YHXQHxWwFYFB_O7Z65o2bVIjgTazPJ8k_p6TeQN82XE`,        "Content-Type": "application/json"
         }
     })
     const data:any=await res.json()
@@ -35,7 +35,7 @@ export async function getFollowingPostsApi(){
 export async function getSavedPostsApi(){
     const res=await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/users/bookmarks`,{
         headers:{
-   "Authorization": `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiNjhmZWI1YmIxMzExZmQ3YjAzMTQ4YzE5IiwiaWF0IjoxNzcyNzEzNjA0LCJleHAiOjE3NzMzMTg0MDQsImF1ZCI6ImxpbmtlZC1wb3N0cy1jbGllbnQiLCJpc3MiOiJsaW5rZWQtcG9zdHMtYXBpIn0.esSYp_YZKOJiVrXxTIy5qbeBbHJ_jaJu0-Vga29thOE`,        "Content-Type": "application/json"
+   "Authorization": `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiNjhmZWI1YmIxMzExZmQ3YjAzMTQ4YzE5IiwiaWF0IjoxNzczNTg5MjEyLCJleHAiOjE3NzQxOTQwMTIsImF1ZCI6ImxpbmtlZC1wb3N0cy1jbGllbnQiLCJpc3MiOiJsaW5rZWQtcG9zdHMtYXBpIn0.YHXQHxWwFYFB_O7Z65o2bVIjgTazPJ8k_p6TeQN82XE`,        "Content-Type": "application/json"
         }
     })
     const data:any=await res.json()
@@ -47,7 +47,7 @@ export async function AddPostsApi(formData:FormData){
         body:formData,
         method:'POST',
         headers:{
-   "Authorization": `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiNjhmZWI1YmIxMzExZmQ3YjAzMTQ4YzE5IiwiaWF0IjoxNzcyNzEzNjA0LCJleHAiOjE3NzMzMTg0MDQsImF1ZCI6ImxpbmtlZC1wb3N0cy1jbGllbnQiLCJpc3MiOiJsaW5rZWQtcG9zdHMtYXBpIn0.esSYp_YZKOJiVrXxTIy5qbeBbHJ_jaJu0-Vga29thOE`,        }
+   "Authorization": `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiNjhmZWI1YmIxMzExZmQ3YjAzMTQ4YzE5IiwiaWF0IjoxNzczNTg5MjEyLCJleHAiOjE3NzQxOTQwMTIsImF1ZCI6ImxpbmtlZC1wb3N0cy1jbGllbnQiLCJpc3MiOiJsaW5rZWQtcG9zdHMtYXBpIn0.YHXQHxWwFYFB_O7Z65o2bVIjgTazPJ8k_p6TeQN82XE`,        }
     })
     const data:any=await res.json()
     return data
