@@ -17,6 +17,7 @@ import { UserI } from "../interfaces/UserI";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { timeAgo } from "../helpers/TimeAgo";
+import ShareComponent from "./ShareComponent";
 export default function PostCard({ post,currentUserId,currentUser,className }
   : { post: PostI,currentUserId:any,currentUser:UserI|null,className?:string }) {
   const pathname = usePathname();
@@ -28,6 +29,8 @@ export default function PostCard({ post,currentUserId,currentUser,className }
   const [noOfLikes,setNoOfLikes] =useState(post.likesCount);
   const [noOfComments,setNoOfComments] =useState(post.commentsCount);
   const [noOfShares,setNoOfShers] =useState(post.sharesCount);
+  const [isShared,setIsShared] =useState(false);
+  const [showShare, setShowShare] = useState(false);
   const [imgSrc, setImgSrc] = useState(post?.user.photo || "/person.jpg");
   const [isLiked,setIsLiked] =useState(post.likes?.some(id => id === currentUserId));
   const timeAgoo = post.createdAt ? timeAgo(post.createdAt) : "";
@@ -132,13 +135,24 @@ export default function PostCard({ post,currentUserId,currentUser,className }
             <MessageCircle/>
             Comment
             </div>
-            <div className="cursor-pointer py-1 rounded flex justify-center hover:bg-gray-100 w-1/3 text-center">
-            <Share2/>
-            Share
-            </div>
+<div
+  onClick={() => setShowShare(true)}
+  className="cursor-pointer py-1 rounded flex justify-center hover:bg-gray-100 w-1/3 text-center gap-x-3"
+>
+  <Share2 />
+  Share
+</div>
           </div>
 {showComments && post?.user && currentUser&&(
   <CommentsModal postUser={post?.user}  postId={post?._id} onClose={ handleClose} currentUser={currentUser} setNoOfComments={setNoOfComments}/>
+)}
+{showShare && currentUser && (
+  <ShareComponent
+    postId={post._id}
+    currentUser={currentUser}
+    onClose={() => setShowShare(false)}
+    onShareSuccess={(count) => setNoOfShers(count)}
+  />
 )}
       </div>
     </div>
