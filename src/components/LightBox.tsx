@@ -25,7 +25,10 @@ export default function LightBox({ src, onClose }: Props) {
       onClick={onClose}
     >
       <button
-        onClick={onClose}
+         onClick={(e) => {
+    e.stopPropagation();
+    onClose();
+  }}
         className="absolute right-4 top-4 rounded-full bg-white/20 p-2 text-white hover:bg-white/40"
       >
         <X size={22} />

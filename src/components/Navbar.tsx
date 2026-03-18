@@ -32,7 +32,10 @@ export default function Navbar() {
           </Link>
       </div>
       <div className="p-2 flex align-baseline gap-x-2 border rounded-2xl bg-[#f7faff] border-gray-300">
+        {
+          user?.photo &&
           <Image src={user?.photo||'/public/person.jpg'}  width={40} height={40} alt='User Photo' className="size-7 rounded-full"/>
+        }
           <span className="text-sm font-extrabold text-gray-800 mt-1 hidden md:inline capitalize">{user?.name}</span>
           <Menu className='size-3 mt-2'/>
       </div>
