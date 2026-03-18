@@ -8,13 +8,13 @@ import Link from "next/link";
 
 export default function SuggestedFriends(props:any) {
 
-  const [followingLoading, setFollowingLoading] = useState(false);
   const [followinData, setFollowinData] = useState<FollowResI|null>(null);
+  const [loadingUserId, setLoadingUserId] = useState<string | null>(null);
   async function makefollowing(userId:string){
-    setFollowingLoading(true)
+    setLoadingUserId(userId);
     const res=await createAndDeleteFollow(userId)
     setFollowinData(res)
-    setFollowingLoading(false)
+    setLoadingUserId(null);
   }
   const [search, setSearch] = useState("");
   const [suggestions,setSuggestions]=useState<UserI[]>([]) 
@@ -97,14 +97,21 @@ export default function SuggestedFriends(props:any) {
                   </div>
                   </Link>
                 </div>
-                <button onClick={
+                <button
+                  disabled={loadingUserId === suggestion._id}
+                 onClick={
+                  
                   async()=>{
                     await makefollowing(suggestion._id)
                     await getSuggestions()
                   }
                 } className="flex items-center gap-1 text-blue-500 border border-blue-200 bg-blue-50 hover:bg-blue-100 text-xs font-semibold px-3 py-1.5 rounded-xl transition">
-                  <UserRoundPlus className="size-4" />Follow
-                </button>
+ {loadingUserId === suggestion._id ? "Loading..." : (
+    <>
+      <UserRoundPlus className="size-4" />
+      Follow
+    </>
+  )}                </button>
               </div>
               <span className="text-xs text-gray-400 bg-gray-200 w-fit px-2 py-0.5 rounded-full">
                 {suggestion.followersCount} followers

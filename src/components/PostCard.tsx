@@ -20,6 +20,7 @@ import { timeAgo } from "../helpers/TimeAgo";
 export default function PostCard({ post,currentUserId,currentUser,className }
   : { post: PostI,currentUserId:any,currentUser:UserI|null,className?:string }) {
   const pathname = usePathname();
+  const [isLiking, setIsLiking] = useState(false);
   const isProfile = pathname.includes("profile");
   const [showComments, setShowComments] = useState(false);
   const handleOpen = () => setShowComments(true);
@@ -106,11 +107,24 @@ export default function PostCard({ post,currentUserId,currentUser,className }
           <div
             className="flex-1 flex items-center gap-1.5 py-2 rounded-md text-[#65676b] font-semibold text-[15px]"
           >
-            <button onClick={async()=>{
-              const x:LikeResI=await createAndDeleteLike(post._id)      
-              setIsLiked(x.data.liked)
-              setNoOfLikes(x.data.likesCount)
-              }} className={ isLiked?"cursor-pointer w-1/3 justify-center flex gap-x-3 text-blue-500 py-1 rounded bg-blue-50 ":"cursor-pointer w-1/3 justify-center flex gap-x-3 py-1  hover:bg-gray-100 "  }>
+            <button  
+             disabled={isLiking} 
+              onClick={async () => {
+    if (isLiking) return;
+
+    setIsLiking(true);
+    try {
+      const x: LikeResI = await createAndDeleteLike(post._id);
+      setIsLiked(x.data.liked);
+      setNoOfLikes(x.data.likesCount);
+    } finally {
+      setIsLiking(false);
+    }
+  }}
+         className={`w-1/3 justify-center flex gap-x-3 py-1 rounded 
+    ${isLiked ? "text-blue-500 bg-blue-50" : "hover:bg-gray-100"}
+    ${isLiking ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}
+  `}>
             <ThumbsUp/>
             Like
             </button>
