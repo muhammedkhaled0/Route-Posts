@@ -21,7 +21,10 @@ export default function LightBox({ src, onClose }: Props) {
   return (
     <div
       className=" fixed inset-0 z-[999] flex items-center justify-center bg-black/80 backdrop-blur-md animate-fade"
-      onClick={onClose}
+        onClick={(e) => {
+          e.stopPropagation();
+          onClose();
+        }}
     >
       <button
          onClick={(e) => {
