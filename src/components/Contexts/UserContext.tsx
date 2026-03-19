@@ -1,7 +1,7 @@
 "use client";
 
 import { UserI } from "@/src/interfaces/UserI";
-import { getMyProfileApi } from "@/src/services/UserServices";
+import { getMyProfileApi } from "@/src/services/UserServices.action";
 import React, { createContext, useEffect, useState } from "react";
 
 type UserContextType = {

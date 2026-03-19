@@ -3,7 +3,7 @@ import Image from "next/image";
 import { Minus, UserPlus } from "lucide-react";
 import { useContext, useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import { createAndDeleteFollow, getUserProfileApi } from "@/src/services/UserServices";
+import { createAndDeleteFollow, getUserProfileApi } from "@/src/services/UserServices.action";
 import { UserResFailI, UserResSuccI } from "@/src/interfaces/UserProfileI";
 import { UserContext } from "@/src/components/Contexts/UserContext";
 import PostCard from "@/src/components/PostCard";

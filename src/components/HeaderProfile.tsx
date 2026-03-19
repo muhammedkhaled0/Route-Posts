@@ -2,7 +2,7 @@
 import React, { useCallback, useContext, useState } from 'react'
 import { UserContext } from './Contexts/UserContext';
 import LightBox from './LightBox';
-import { uploadProfileCover, uploadProfilePhoto } from '../services/UserServices';
+import { uploadProfileCover, uploadProfilePhoto } from '../services/UserServices.action';
 import PhotoCropModal from './CropModal';
 import CoverSection from './CoverSection';
 import AboutSection from './AboutSection';

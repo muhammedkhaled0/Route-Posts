@@ -2,7 +2,7 @@
 import { UserRoundPlus, Users } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { UserI } from "../interfaces/UserI";
-import { createAndDeleteFollow, getUserSuggestionsApi } from "../services/UserServices";
+import { createAndDeleteFollow, getUserSuggestionsApi } from "../services/UserServices.action";
 import { FollowResI } from "../interfaces/FollowI";
 import Link from "next/link";
 

@@ -1,3 +1,4 @@
+"use server"
 import { FollowResI } from "../interfaces/FollowI"
 import { UserResI } from "../interfaces/UserI"
 import { UserResFailI, UserResSuccI } from "../interfaces/UserProfileI"

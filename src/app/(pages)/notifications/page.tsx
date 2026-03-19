@@ -1,5 +1,5 @@
 import Loading from "@/src/components/Loading";
-import { getUserNotificationsApi } from "@/src/services/UserServices";
+import { getUserNotificationsApi } from "@/src/services/UserServices.action";
 export default async function Notifications() {
   const notifications=await getUserNotificationsApi()
   return <div className="w-9/10 mx-auto body-space  rounded-xl shadow-md p-6">
