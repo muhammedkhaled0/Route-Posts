@@ -23,3 +23,10 @@ export interface UserI {
   bookmarksCount: number
   id: string
 }
+export interface UserInLoginI {
+  cover: string
+  _id: string
+  name: string
+  email: string
+  photo: string
+}

@@ -4,12 +4,22 @@ import logo from "@/src/app/icon.png"
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Home, Menu, MessageCircle, User } from "lucide-react";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { UserContext } from "./Contexts/UserContext";
+import { useSession } from "next-auth/react";
+import NavDropdown from "./NavDropdown";
 export default function Navbar() {
+  const session=useSession()
   const {user}=useContext(UserContext)
   const pathName=usePathname()
-  return <nav className="max-w-full bg-white shadow fixed top-0 start-0 end-0 z-50 ">
+  const[isLoggedIn,setIsLoggedIn]=useState('')
+  const [openDrop,setOpenDrop]=useState(false);
+  useEffect(()=>{
+    setIsLoggedIn(session.status)
+  },[session])
+  return isLoggedIn==="authenticated"?
+  
+   <nav className="max-w-full bg-white shadow fixed top-0 start-0 end-0 z-50 ">
     <div className="myContainer py-2 flex justify-between align-baseline">
       <div>
         <div className=" flex gap-x-3">
@@ -17,7 +27,7 @@ export default function Navbar() {
           <h1 className=" mt-1.5 font-extrabold text-xl hidden sm:block">Route Posts</h1>
         </div>
       </div>
-      <div className="flex gap-x-7 font-extrabold text-sm text-gray-600 border rounded-2xl pt-3 px-4  bg-[#f7faff] border-gray-300">
+      <div className="flex gap-x-7 font-extrabold text-sm text-gray-600 border rounded-2xl  pt-4 px-4  bg-[#f7faff] border-gray-300">
           <Link href='/' className={(pathName=='/'?"active":"")+" flex gap-x-1.5 align-baseline"}>
           <Home className='size-5'/>
           <span className="hidden sm:inline">Feed</span>
@@ -31,14 +41,8 @@ export default function Navbar() {
           <span className="hidden sm:inline">Notifications</span>
           </Link>
       </div>
-      <div className="p-2 flex align-baseline gap-x-2 border rounded-2xl bg-[#f7faff] border-gray-300">
-        {
-          user?.photo &&
-          <Image src={user?.photo||'/public/person.jpg'}  width={40} height={40} alt='User Photo' className="size-7 rounded-full"/>
-        }
-          <span className="text-sm font-extrabold text-gray-800 mt-1 hidden md:inline capitalize">{user?.name}</span>
-          <Menu className='size-3 mt-2'/>
-      </div>
+     
+          <NavDropdown user={user}/>
     </div>
-  </nav>
+  </nav>:null
 }

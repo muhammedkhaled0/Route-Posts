@@ -1,9 +1,13 @@
+import { getUserToken } from "../helpers/GetUserToken";
 import { PostI } from "../interfaces/PostI";
 
 export async function getAllPostsApi(){
+    const token=await getUserToken()
+    
     const res=await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/posts`,{
         headers:{
-   "Authorization": `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiNjhmZWI1YmIxMzExZmQ3YjAzMTQ4YzE5IiwiaWF0IjoxNzczNTg5MjEyLCJleHAiOjE3NzQxOTQwMTIsImF1ZCI6ImxpbmtlZC1wb3N0cy1jbGllbnQiLCJpc3MiOiJsaW5rZWQtcG9zdHMtYXBpIn0.YHXQHxWwFYFB_O7Z65o2bVIjgTazPJ8k_p6TeQN82XE`,        "Content-Type": "application/json"
+   "Authorization": `Bearer ${token}`,
+    "Content-Type": "application/json"
         }
     })
     const data:any=await res.json()
@@ -12,9 +16,11 @@ export async function getAllPostsApi(){
     
 } 
 export async function getUserPostsApi(userId:string){
+        const token=await getUserToken()
     const res=await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/users/${userId}/posts`,{
-        headers:{
-   "Authorization": `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiNjhmZWI1YmIxMzExZmQ3YjAzMTQ4YzE5IiwiaWF0IjoxNzczNTg5MjEyLCJleHAiOjE3NzQxOTQwMTIsImF1ZCI6ImxpbmtlZC1wb3N0cy1jbGllbnQiLCJpc3MiOiJsaW5rZWQtcG9zdHMtYXBpIn0.YHXQHxWwFYFB_O7Z65o2bVIjgTazPJ8k_p6TeQN82XE`,        "Content-Type": "application/json"
+    headers:{
+   "Authorization": `Bearer ${token}`,
+   "Content-Type": "application/json"
         }
     })
     const data:any=await res.json()
@@ -23,9 +29,10 @@ export async function getUserPostsApi(userId:string){
     
 } 
 export async function getFollowingPostsApi(){
+    const token=await getUserToken()
     const res=await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/posts/feed?only=following`,{
-        headers:{
-   "Authorization": `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiNjhmZWI1YmIxMzExZmQ3YjAzMTQ4YzE5IiwiaWF0IjoxNzczNTg5MjEyLCJleHAiOjE3NzQxOTQwMTIsImF1ZCI6ImxpbmtlZC1wb3N0cy1jbGllbnQiLCJpc3MiOiJsaW5rZWQtcG9zdHMtYXBpIn0.YHXQHxWwFYFB_O7Z65o2bVIjgTazPJ8k_p6TeQN82XE`,        "Content-Type": "application/json"
+   headers:{
+   "Authorization": `Bearer ${token}`,
         }
     })
     const data:any=await res.json()
@@ -33,9 +40,10 @@ export async function getFollowingPostsApi(){
     return posts
 } 
 export async function getSavedPostsApi(){
+    const token=await getUserToken()
     const res=await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/users/bookmarks`,{
-        headers:{
-   "Authorization": `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiNjhmZWI1YmIxMzExZmQ3YjAzMTQ4YzE5IiwiaWF0IjoxNzczNTg5MjEyLCJleHAiOjE3NzQxOTQwMTIsImF1ZCI6ImxpbmtlZC1wb3N0cy1jbGllbnQiLCJpc3MiOiJsaW5rZWQtcG9zdHMtYXBpIn0.YHXQHxWwFYFB_O7Z65o2bVIjgTazPJ8k_p6TeQN82XE`,        "Content-Type": "application/json"
+   headers:{
+   "Authorization": `Bearer ${token}`,
         }
     })
     const data:any=await res.json()
@@ -43,25 +51,25 @@ export async function getSavedPostsApi(){
     return posts
 } 
 export async function AddPostsApi(formData:FormData){
+        const token=await getUserToken()
         const res=await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/posts`,{
         body:formData,
         method:'POST',
-        headers:{
-   "Authorization": `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiNjhmZWI1YmIxMzExZmQ3YjAzMTQ4YzE5IiwiaWF0IjoxNzczNTg5MjEyLCJleHAiOjE3NzQxOTQwMTIsImF1ZCI6ImxpbmtlZC1wb3N0cy1jbGllbnQiLCJpc3MiOiJsaW5rZWQtcG9zdHMtYXBpIn0.YHXQHxWwFYFB_O7Z65o2bVIjgTazPJ8k_p6TeQN82XE`
-   , 
-}
+   headers:{
+   "Authorization": `Bearer ${token}`,
+        }
     })
     const data:any=await res.json()
     return data
 }
 export async function sharePostApi(postId:string,text:string){
+const token=await getUserToken()
 const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/posts/${postId}/share`, {
 method: "POST",
-headers: { 
-    "Content-Type": "application/json" ,
-   "Authorization": `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiNjhmZWI1YmIxMzExZmQ3YjAzMTQ4YzE5IiwiaWF0IjoxNzczNTg5MjEyLCJleHAiOjE3NzQxOTQwMTIsImF1ZCI6ImxpbmtlZC1wb3N0cy1jbGllbnQiLCJpc3MiOiJsaW5rZWQtcG9zdHMtYXBpIn0.YHXQHxWwFYFB_O7Z65o2bVIjgTazPJ8k_p6TeQN82XE`, 
-
-},
+   headers:{
+   "Authorization": `Bearer ${token}`,
+   "Content-Type": "application/json"
+        },
 
 body: JSON.stringify({ body: text }),
 });

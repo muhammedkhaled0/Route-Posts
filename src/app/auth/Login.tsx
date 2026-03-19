@@ -1,8 +1,11 @@
+"use client"
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Key, User } from 'lucide-react'
-import React from 'react'
-import { SubmitHandler, useForm } from 'react-hook-form'
+import { useState } from 'react'
+import { useForm } from 'react-hook-form'
 import * as z from "zod"
+import { signIn } from 'next-auth/react'
+import { useSearchParams } from 'next/navigation'
 type LoginInputs = {
   email: string
   password: string
@@ -12,6 +15,8 @@ const schema = z.object({
       password:z.string().nonempty('Password Is Required').regex(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$/,"Password should coinatins a capital and small letters, spceial character,numbers and no less than 8 characters"),
   })
 export default function Login() {
+  const [loading, setLoading] = useState(false)
+  const searchParams=useSearchParams()
      const {
     register,
     handleSubmit,
@@ -26,7 +31,14 @@ export default function Login() {
       reValidateMode:'onBlur',
   })
   async function  sendData(data:LoginInputs) {
-    
+    setLoading(true)
+    const res =await signIn('credentials',{
+      email:data.email,
+      password:data.password,
+      callbackUrl:'/',
+      redirect:true
+    })
+      setLoading(false)
   }
   return (
     <>
@@ -55,7 +67,10 @@ export default function Login() {
     />
 </div>
     {touchedFields.password&& <p className='text-red-500'>{errors.password?.message}</p>}
-  <button type='submit' className='w-full bg-dark-Blue py-3 text-white font-extrabold rounded-xl cursor-pointer hover:bg-[#04216a] transition-all duration-500'>Log in</button>
+  <button disabled={loading}
+   className={`w-full bg-dark-Blue py-3 text-white font-extrabold rounded-xl cursor-pointer hover:bg-[#04216a] transition-all duration-500 flex justify-center items-center gap-2 ${loading ? 'opacity-70 cursor-not-allowed' : ''}`}
+ type='submit'>{loading ? 'Logging in...' : 'Log in'}</button>
+  {searchParams.get('error') && <p className='text-red-500 text-xl text-center'>{searchParams.get('error')}</p>}
   </form>
     </>
   )

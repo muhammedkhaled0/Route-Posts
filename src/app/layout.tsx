@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from '@/src/components/Navbar'
 import UserContextProvider from "../components/Contexts/UserContext";
 import { Toaster } from "react-hot-toast";
+import MySessionProvider from "../SessionProvider";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -30,6 +31,7 @@ export default function RootLayout({
 <link rel="preconnect" href="https://fonts.gstatic.com"/>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&display=swap" rel="stylesheet"/>
       </head>
+      <MySessionProvider>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
@@ -39,6 +41,7 @@ export default function RootLayout({
         </UserContextProvider>
           <Toaster />
       </body>
+      </MySessionProvider>
     </html>
   );
 }
