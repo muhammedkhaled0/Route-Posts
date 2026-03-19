@@ -14,16 +14,6 @@ interface Comment {
   likes: string[];
   commentCreator: UserPostI;
 }
-
-interface SharedPost {
-  _id: string;
-  body: string;
-  image?: string;
-  privacy: string;
-  user: UserPostI;
-  createdAt: string;
-}
-
 export interface PostI {
   _id: string;
   body: string;
@@ -31,7 +21,7 @@ export interface PostI {
   privacy: 'public' | 'private' | 'friends';
   user: UserPostI;
   createdAt: string;
-  sharedPost: SharedPost | null;
+  sharedPost: PostI | null;
   likes: string[];
   likesCount: number;
   isShare: boolean;

@@ -10,7 +10,7 @@ import {
 import Image from "next/image";
 import { PostI } from "../interfaces/PostI";
 import { createAndDeleteLike } from "../services/LikeServices";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { LikeResI } from "../interfaces/LikeI";
 import CommentsModal from "./CommentModal";
 import { UserI } from "../interfaces/UserI";
@@ -18,6 +18,7 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { timeAgo } from "../helpers/TimeAgo";
 import ShareComponent from "./ShareComponent";
+import { UserContext } from "./Contexts/UserContext";
 export default function PostCard({ post,currentUserId,currentUser,className }
   : { post: PostI,currentUserId:any,currentUser:UserI|null,className?:string }) {
   const pathname = usePathname();
@@ -34,7 +35,66 @@ export default function PostCard({ post,currentUserId,currentUser,className }
   const [imgSrc, setImgSrc] = useState(post?.user.photo || "/person.jpg");
   const [isLiked,setIsLiked] =useState(post.likes?.some(id => id === currentUserId));
   const timeAgoo = post.createdAt ? timeAgo(post.createdAt) : "";
+  const {user}=useContext(UserContext)
+  if (post.isShare && post.sharedPost) {
   return (
+    <div className="bg-white rounded-lg shadow-sm overflow-hidden">
+
+      <div className="flex items-center gap-2 px-4 pt-3">
+        {user?._id==post.user._id?
+        
+   <Link href={'/profile/'}>
+           <Image
+          src={post.user.photo || "/person.jpg"}
+          width={40}
+          height={40}
+          alt="user"
+          className="size-8 rounded-full"
+        />
+   </Link>
+   :
+   <Link href={'/profile/' + post.user._id}>
+           <Image
+          src={post.user.photo || "/person.jpg"}
+          width={40}
+          height={40}
+          alt="user"
+          className="size-8 rounded-full"
+        />
+   </Link>
+        
+         }
+
+        <div className="text-sm">
+        {user?._id==post.user._id?
+        
+   <Link href={'/profile/'}>
+          <span className="font-semibold">{post.user.name}</span>{" "}
+
+   </Link>
+   :
+   <Link href={'/profile/' + post.user._id}>
+         <span className="font-semibold">{post.user.name}</span>{" "}
+   </Link>
+        
+         }
+
+          <span className="text-gray-500">shared a post</span>
+        </div>
+      </div>
+      <div className="mt-2 border-t">
+        <PostCard
+          post={post.sharedPost}
+          currentUserId={currentUserId}
+          currentUser={currentUser}
+          className="border-none shadow-none"
+        />
+      </div>
+    </div>
+  );
+}
+  return (
+    
     <div className="bg-white rounded-lg shadow-sm overflow-hidden">
       {/* Header */}
       <div className="flex items-center justify-between px-4 pt-3">
