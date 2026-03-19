@@ -21,23 +21,34 @@ export default function LightBox({ src, onClose }: Props) {
   return (
     <div
       className=" fixed inset-0 z-[999] flex items-center justify-center bg-black/80 backdrop-blur-md animate-fade"
-        onClick={(e) => {
-          e.stopPropagation();
-          onClose();
-        }}
+    onClick={
+      (e) =>{
+        e.stopPropagation()
+        onClose()
+      } 
+    }
+    onTouchStart={(e) => {
+    e.stopPropagation();
+    onClose();
+  }}
     >
       <button
          onClick={(e) => {
     e.stopPropagation();
     onClose();
+  }  
+}
+  onTouchStart={(e) => {
+    e.stopPropagation();
+    onClose();
   }}
-        className="absolute right-4 top-4 rounded-full bg-white/20 p-2 text-white hover:bg-white/40"
+
+        className="cursor-pointer absolute right-4 top-4 rounded-full bg-white/20 p-2 text-white hover:bg-white/40"
       >
         <X size={22} />
       </button>
       <div
         className="relative h-[90vh] w-[95vw] max-w-6xl mx-auto"
-        onClick={(e) => e.stopPropagation()}
       >
         <Image
           src={src}
