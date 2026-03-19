@@ -1,45 +1,63 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { X, Share2, Loader2 } from "lucide-react";
 import Image from "next/image";
 import { UserI } from "../interfaces/UserI";
+import { sharePostApi } from "../services/PostServices";
+import toast from "react-hot-toast";
 
 interface ShareComponentProps {
   postId: string;
   currentUser: UserI | null;
   onClose: () => void;
-  onShareSuccess?: (newSharesCount: number) => void;
+  setNoOfShares: (count: number) => void;
+  sharesCount: number;
 }
 
 export default function ShareComponent({
   postId,
   currentUser,
   onClose,
-  onShareSuccess,
+  setNoOfShares,
+  sharesCount
 }: ShareComponentProps) {
   const [text, setText] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [imgSrc, setImgSrc] = useState(currentUser?.photo || "/person.jpg");
+  const textRef = useRef<HTMLTextAreaElement | null>(null);
+async function handleShare() {
+  if (isLoading) return;
 
-  const handleShare = async () => {
-    if (isLoading) return;
-    setIsLoading(true);
-    try {
-      const res = await fetch(`/api/posts/${postId}/share`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ body: text }),
+  const toastId = toast.loading("Sharing post...");
+  setIsLoading(true);
+
+  try {
+    const data = await sharePostApi(postId, text);
+    if (data?.success==false) {
+      toast.error(data.message, {
+        id: toastId,
       });
-      const data = await res.json();
-      if (onShareSuccess) onShareSuccess(data?.sharesCount);
-      onClose();
-    } catch (err) {
-      console.error("Share failed:", err);
-    } finally {
-      setIsLoading(false);
+      return;
     }
-  };
+    if(data.success){
+      setNoOfShares(sharesCount + 1);
+    }
+    toast.success("Post shared successfully 🎉", {
+      id: toastId,
+    });
+
+  } catch (err) {
+    console.error("Share failed:", err);
+    toast.error("Failed to share post ❌", {
+      id: toastId,
+    });
+
+  } finally {
+      setIsLoading(false);
+      onClose();
+  }
+}
 
   return (
     <>
@@ -88,6 +106,7 @@ export default function ShareComponent({
 
             {/* Textarea */}
             <textarea
+              ref={textRef}
               value={text}
               onChange={(e) => setText(e.target.value)}
               placeholder="Say something about this..."

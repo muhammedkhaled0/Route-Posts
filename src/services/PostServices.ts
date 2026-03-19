@@ -52,3 +52,19 @@ export async function AddPostsApi(formData:FormData){
     const data:any=await res.json()
     return data
 }
+export async function sharePostApi(postId:string,text:string){
+const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/posts/${postId}/share`, {
+method: "POST",
+headers: { 
+    "Content-Type": "application/json" ,
+   "Authorization": `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiNjhmZWI1YmIxMzExZmQ3YjAzMTQ4YzE5IiwiaWF0IjoxNzczNTg5MjEyLCJleHAiOjE3NzQxOTQwMTIsImF1ZCI6ImxpbmtlZC1wb3N0cy1jbGllbnQiLCJpc3MiOiJsaW5rZWQtcG9zdHMtYXBpIn0.YHXQHxWwFYFB_O7Z65o2bVIjgTazPJ8k_p6TeQN82XE`, 
+
+},
+
+body: JSON.stringify({ body: text }),
+});
+const data = await res.json();
+console.log();
+
+return data;
+}

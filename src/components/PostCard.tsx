@@ -28,7 +28,7 @@ export default function PostCard({ post,currentUserId,currentUser,className }
   const handleClose = () => setShowComments(false); 
   const [noOfLikes,setNoOfLikes] =useState(post.likesCount);
   const [noOfComments,setNoOfComments] =useState(post.commentsCount);
-  const [noOfShares,setNoOfShers] =useState(post.sharesCount);
+  const [noOfShares,setNoOfShares] =useState(post.sharesCount);
   const [isShared,setIsShared] =useState(false);
   const [showShare, setShowShare] = useState(false);
   const [imgSrc, setImgSrc] = useState(post?.user.photo || "/person.jpg");
@@ -151,7 +151,8 @@ export default function PostCard({ post,currentUserId,currentUser,className }
     postId={post._id}
     currentUser={currentUser}
     onClose={() => setShowShare(false)}
-    onShareSuccess={(count) => setNoOfShers(count)}
+    setNoOfShares={setNoOfShares}  
+     sharesCount={noOfShares} 
   />
 )}
       </div>
