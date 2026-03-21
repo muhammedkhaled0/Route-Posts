@@ -12,8 +12,6 @@ export async function registerApi(data:RegisterInputs){
         }
        })       
        const payload:SuccRegisterRes|FaildRegisterRes=await res.json()
-       console.log(payload);
-       
        return payload
     }
     catch(error ){

@@ -74,7 +74,5 @@ method: "POST",
 body: JSON.stringify({ body: text }),
 });
 const data = await res.json();
-console.log();
-
 return data;
 }

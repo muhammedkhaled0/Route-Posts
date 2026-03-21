@@ -24,7 +24,6 @@ export const authOptions:AuthOptions={
             }
         )
         const payload:SuccessLoginResponse|FailedLoginResponse=await res.json()
-        console.log(payload);
         if(payload.success==true){
              return {
                 id:payload.data.user._id,

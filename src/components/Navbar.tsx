@@ -45,7 +45,7 @@ export default function Navbar() {
           </Link>
           <Link href='/notifications' className={(pathName=='/notifications'?"active":"")+ " flex gap-x-1.5 align-baseline relative"}>
           <MessageCircle className='size-5'/>
-          {notiCount!=null&&<span className="bg-red-500 size-5 rounded-full text-white text-xs flex items-center justify-center absolute -top-2.5 left-2">{notiCount}</span>}
+          {notiCount!=null&&<span className="bg-red-400 size-5 rounded-full text-white text-xs flex items-center justify-center absolute -top-2.5 left-2">{notiCount}</span>}
           <span className="hidden sm:inline">Notifications</span>
           </Link>
       </div>
