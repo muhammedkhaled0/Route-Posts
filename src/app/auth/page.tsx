@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from "react"
+import { Suspense, useState } from "react"
 import Login from "./Login"
 import Register from "./Register"
 
@@ -66,7 +66,11 @@ export default function AuthLayout() {
       </div>
     </div>
 
-    {isLogin?<Login/>:''}
+    {isLogin?
+        <Suspense fallback={<div>Loading...</div>}>
+      <Login />
+    </Suspense>
+    :''}
     {isRegister?<Register/>:''}
     </div>
    </div>
