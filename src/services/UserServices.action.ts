@@ -48,9 +48,19 @@ export async function getUserNotificationsApi(){
         }
     })
     const data:any=await res.json();
-    console.log(data);
     
     return data.data.notifications
+    
+} 
+export async function getUserNotificationsCountApi(){
+        const token=await getUserToken()
+    const res=await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/notifications/unread-count`,{
+        headers:{
+   "Authorization": `Bearer ${token}`,
+        }
+    })
+    const data:any=await res.json();
+    return data.data.unreadCount as number
     
 } 
 export async function createAndDeleteFollow(userId:string){

@@ -8,14 +8,21 @@ import { useContext, useEffect, useState } from "react";
 import { UserContext } from "./Contexts/UserContext";
 import { useSession } from "next-auth/react";
 import NavDropdown from "./NavDropdown";
+import { getUserNotificationsCountApi } from "../services/UserServices.action";
 export default function Navbar() {
   const session=useSession()
   const {user}=useContext(UserContext)
   const pathName=usePathname()
   const[isLoggedIn,setIsLoggedIn]=useState('')
   const [openDrop,setOpenDrop]=useState(false);
+  const [notiCount,setNotiCount]=useState<null|number>(null)
+  async function getNotiCount(){
+    const count=await getUserNotificationsCountApi()
+    setNotiCount(count)    
+  }
   useEffect(()=>{
     setIsLoggedIn(session.status)
+    getNotiCount()
   },[session])
   return isLoggedIn==="authenticated"?
   
@@ -36,8 +43,9 @@ export default function Navbar() {
           <User className='size-5'/>
           <span className="hidden sm:inline">Profile</span>
           </Link>
-          <Link href='/notifications' className={(pathName=='/notifications'?"active":"")+ " flex gap-x-1.5 align-baseline"}>
+          <Link href='/notifications' className={(pathName=='/notifications'?"active":"")+ " flex gap-x-1.5 align-baseline relative"}>
           <MessageCircle className='size-5'/>
+          {notiCount!=null&&<span className="bg-red-500 size-5 rounded-full text-white text-xs flex items-center justify-center absolute -top-2.5 left-2">{notiCount}</span>}
           <span className="hidden sm:inline">Notifications</span>
           </Link>
       </div>
