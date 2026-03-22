@@ -13,6 +13,7 @@ export default function Register() {
   const navigator=useRouter()
   const [loading, setLoading] = useState(false);
   const [apiError, setApiError] = useState<string | null>(null);
+  const [registerSuccess,setRegisterSuccess]=useState('')
   const {
     register,
     handleSubmit,
@@ -37,8 +38,10 @@ export default function Register() {
     setApiError(null)
     const  res=await registerApi(data)
     if(typeof res=="object"&&"success" in res  && res.success==true ){
-      navigator.push('/')
+console.log("hellow");
+
       setApiError(null)
+      setRegisterSuccess('Register Done Successfully You Should to Login Now')
     }
     else if(typeof res=="object"&&"success" in res &&res.success==false){
       setApiError(res.message)
@@ -131,6 +134,7 @@ export default function Register() {
           <p className="text-red-500">{errors.rePassword?.message}</p>
         )}
          {apiError&&<p className="text-red-500 text-center text-xl font-bold -mt-5">{apiError}</p>}
+         {registerSuccess&&<p className="text-emerald-500 text-center text-xl font-bold -mt-5">{registerSuccess}</p>}
 <button
   type="submit"
   disabled={loading}
