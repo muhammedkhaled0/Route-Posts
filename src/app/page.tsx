@@ -128,7 +128,7 @@ export default function Home() {
       className="size-8 rounded-full"
     />
         }
-            <span className="font-extrabold mt-1">Muhammed</span>
+            <span className="font-extrabold mt-1">{user.name}</span>
       </div>
             <PrivacyDropdown 
       value={privacy}
