@@ -10,7 +10,7 @@ export default async function proxy(req:NextRequest){
         return NextResponse.next()
     }
     else{
-        const redirect = new URL('/auth',process.env.NEXT_URL)
+        const redirect = new URL('/auth',process.env.NEXTAUTH_URL)
         return NextResponse.redirect(redirect)
     }
    }
@@ -19,7 +19,7 @@ export default async function proxy(req:NextRequest){
         return NextResponse.next()
     }
     else{
-        const redirect = new URL('/',process.env.NEXT_URL)
+        const redirect = new URL('/',process.env.NEXTAUTH_URL)
         return NextResponse.redirect(redirect)
     }
    }
