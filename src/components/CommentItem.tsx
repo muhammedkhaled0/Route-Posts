@@ -66,7 +66,7 @@ const handleLike = async () => {
       <UserImage src={comment.commentCreator?.photo || "/person.png"} />
 
       <div className="flex-1 min-w-0">
-        <div className="bg-gray-100 hover:bg-gray-50 rounded-2xl rounded-tl-sm px-4 py-3 shadow-sm transition-colors">
+        <div className="bg-gray-100   hover:bg-gray-50 rounded-2xl rounded-tl-sm px-4 py-3 shadow-sm transition-colors">
           <div className="flex justify-between">
             <div className="flex items-center gap-2 mb-0.5">
               <p className="font-semibold text-sm text-gray-900 leading-tight">
@@ -115,7 +115,7 @@ const handleLike = async () => {
 )  : (
             <>
               {currentComment.content && (
-                <p className="text-sm text-gray-700 leading-relaxed">
+                <p className="text-sm break-all text-gray-700 leading-relaxed">
                   {currentComment.content}
                 </p>
               )}
