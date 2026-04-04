@@ -1,7 +1,8 @@
 import Loading from "@/src/components/Loading";
-import { getUserNotificationsApi } from "@/src/services/UserServices.action";
+import { getUserNotificationsApi, getUserNotificationsCountApi } from "@/src/services/UserServices.action";
 export default async function Notifications() {
   const notifications=await getUserNotificationsApi()
+  const unReadNotificationsCount=await getUserNotificationsCountApi()
   return <div className="w-9/10 mx-auto body-space  rounded-xl shadow-md p-6">
   {/* Header */}
   <div className="flex justify-between items-center mb-4">
@@ -14,7 +15,7 @@ export default async function Notifications() {
   {/* Tabs */}
   <div className="flex space-x-2 mb-4">
     <button className="bg-blue-600 text-white px-4 py-1 rounded-full text-sm">All</button>
-    <button className="bg-gray-200 text-gray-700 px-4 py-1 rounded-full text-sm">Unread <span className="bg-gray-300 px-2 rounded-full ml-1 text-xs">16</span></button>
+    <button className="bg-gray-200 text-gray-700 px-4 py-1 rounded-full text-sm">Unread <span className="bg-gray-300 px-2 rounded-full ml-1 text-xs">{unReadNotificationsCount}</span></button>
   </div>
   {/* Notification Item */}
   <div className="space-y-2">
