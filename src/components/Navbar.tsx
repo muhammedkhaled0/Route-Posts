@@ -24,12 +24,18 @@ export default function Navbar() {
     setIsLoggedIn(session.status)
     getNotiCount()
   },[session])
+
+    useEffect(()=>{
+    getNotiCount()
+  },[])
+    useEffect(()=>{
   if(error){
- signOut({
+    signOut({
               callbackUrl:'/auth'
               })
-                  return
+    return
   }
+  },[])
   return isLoggedIn==="authenticated"?
   
    <nav className="max-w-full bg-white shadow fixed top-0 start-0 end-0 z-50 ">
