@@ -10,7 +10,7 @@ import {
 import Image from "next/image";
 import { PostI } from "../interfaces/PostI";
 import { createAndDeleteLike } from "../services/LikeServices";
-import { useContext, useState } from "react";
+import { useContext, useOptimistic, useState, useTransition } from "react";
 import { LikeResI } from "../interfaces/LikeI";
 import CommentsModal from "./CommentModal";
 import { UserI } from "../interfaces/UserI";
@@ -36,7 +36,22 @@ export default function PostCard({ post,currentUserId,currentUser,className }
   const [isLiked,setIsLiked] =useState(post.likes?.some(id => id === currentUserId));
   const timeAgoo = post.createdAt ? timeAgo(post.createdAt) : "";
   const {user}=useContext(UserContext)
+const [OptimisticLikes, updateOptimisticLikes] = useOptimistic(noOfLikes,(currentLikes,wasLiked)=>wasLiked? currentLikes-1 : currentLikes+1);
+const [isPending, startTransition] = useTransition();
+async function handleLike() {
+  setIsLiked(!isLiked)
+  if (isPending) return;
 
+  startTransition(async () => {
+    updateOptimisticLikes(isLiked); 
+    try {
+      const x: LikeResI = await createAndDeleteLike(post._id);
+      setIsLiked(x.data.liked);
+      setNoOfLikes(x.data.likesCount);
+    } catch {
+    }
+  });
+}
   if (post.isShare && post.sharedPost) {
   return (
     <div className="bg-white rounded-lg shadow-sm overflow-hidden">
@@ -158,7 +173,7 @@ export default function PostCard({ post,currentUserId,currentUser,className }
           <div className="w-5 h-5 rounded-full bg-blue-500 flex items-center justify-center">
             <ThumbsUp size={11} className="text-white fill-white" />
           </div>
-          {<span>{noOfLikes} likes</span>}
+          {<span>{OptimisticLikes} likes</span>}
         </div>
 
         <div className="flex gap-3 text-[15px] text-[#65676b]" >
@@ -172,18 +187,8 @@ export default function PostCard({ post,currentUserId,currentUser,className }
             className="flex-1 flex items-center gap-1.5 py-2 rounded-md text-[#65676b] font-semibold text-[15px]"
           >
             <button  
-             disabled={isLiking} 
               onClick={async () => {
-    if (isLiking) return;
-
-    setIsLiking(true);
-    try {
-      const x: LikeResI = await createAndDeleteLike(post._id);
-      setIsLiked(x.data.liked);
-      setNoOfLikes(x.data.likesCount);
-    } finally {
-      setIsLiking(false);
-    }
+                 handleLike();
   }}
          className={`w-1/3 justify-center flex gap-x-3 py-1 rounded 
     ${isLiked ? "text-blue-500 bg-blue-50" : "hover:bg-gray-100"}
