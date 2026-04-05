@@ -32,7 +32,7 @@ export default function Home() {
   const[posts,setPosts] = useState<PostI[]>([])
   const [privacy, setPrivacy] = useState("public")
   const [loading, setLoading] = useState(false)
-  const { user } = useContext(UserContext);
+  const { user ,error} = useContext(UserContext);
   async function fetchPosts(type: "all" | "myPosts"|"following"|"saved") {
       setLoading(true)
   let posts: PostI[] = []
@@ -69,8 +69,8 @@ export default function Home() {
   setPostImg(null)
   fetchPosts(feedType)
   }
-  if (!user) {
-  return <Loading />
+  if (error||!user) {
+  return <div className="text-red-500">{error}</div>;
 }
   return <>
   <div className=" myContainer body-space grid items-start  lg:grid-cols-10 grid-cols-1 lg:gap-5 gap-y-5 overflow-visible ">
