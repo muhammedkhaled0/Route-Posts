@@ -40,9 +40,9 @@ export async function getUserSuggestionsApi(){
     return data.data.suggestions
     
 } 
-export async function getUserNotificationsApi(){
+export async function getUserNotificationsApi(status:string){
         const token=await getUserToken()
-    const res=await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/notifications?unread=false&page=1&limit=10`,{
+    const res=await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/notifications?unread=${status}&page=1&limit=10`,{
         headers:{
    "Authorization": `Bearer ${token}`,        "Content-Type": "application/json"
         }
