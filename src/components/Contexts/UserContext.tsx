@@ -6,10 +6,12 @@ import React, { createContext, useEffect, useState } from "react";
 
 type UserContextType = {
   user: UserI | null;
+  error: string | null;
 };
 
 export const UserContext = createContext<UserContextType>({
   user: null,
+  error: null,
 });
 
 export default function UserContextProvider({
@@ -18,16 +20,21 @@ export default function UserContextProvider({
   children: React.ReactNode;
 }) {
   const [user, setUser] = useState<UserI | null>(null);
+  const [error, setError] = useState<string | null>(null);
   useEffect(() => {
     async function fetchUser() {
-      const data = await getMyProfileApi();
-      setUser(data);
+      try {
+        const data = await getMyProfileApi();
+        setUser(data);
+      } catch (err) {
+        setError((err as Error).message);
+      }
     }
     fetchUser();
   }, []);
 
   return (
-    <UserContext.Provider value={{ user }}>
+    <UserContext.Provider value={{ user, error }}>
       {children}
     </UserContext.Provider>
   );

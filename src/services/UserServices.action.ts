@@ -8,11 +8,15 @@ export async function getMyProfileApi(){
     const token=await getUserToken()
     const res=await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/users/profile-data`,{
         headers:{
-   "Authorization": `Bearer ${token}`,        "Content-Type": "application/json"
-        }
+   "Authorization": `Bearer ${token}`,
+   "Content-Type": "application/json"
+}
     })
     const data:UserResI=await res.json()
-
+        if (!res.ok || data.success === false) {
+        if (data.message === "jwt expired") throw new Error("SESSION_EXPIRED")
+        throw new Error(data.message || "Some error occurred while fetching user profile data.")
+    }
     return data.data.user
     
 } 

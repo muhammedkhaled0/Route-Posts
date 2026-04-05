@@ -36,6 +36,7 @@ export default function PostCard({ post,currentUserId,currentUser,className }
   const [isLiked,setIsLiked] =useState(post.likes?.some(id => id === currentUserId));
   const timeAgoo = post.createdAt ? timeAgo(post.createdAt) : "";
   const {user}=useContext(UserContext)
+
   if (post.isShare && post.sharedPost) {
   return (
     <div className="bg-white rounded-lg shadow-sm overflow-hidden">
@@ -64,7 +65,6 @@ export default function PostCard({ post,currentUserId,currentUser,className }
    </Link>
         
          }
-
         <div className="text-sm">
         {user?._id==post.user._id?
         
@@ -81,7 +81,9 @@ export default function PostCard({ post,currentUserId,currentUser,className }
 
           <span className="text-gray-500">shared a post</span>
         </div>
+
       </div>
+      <p className="px-4 mt-1 text-gray-800">{post?.body}</p>
       <div className="mt-2 border-t">
         <PostCard
           post={post.sharedPost}
@@ -94,7 +96,6 @@ export default function PostCard({ post,currentUserId,currentUser,className }
   );
 }
   return (
-    
     <div className="bg-white rounded-lg shadow-sm overflow-hidden">
       {/* Header */}
       <div className="flex items-center justify-between px-4 pt-3">

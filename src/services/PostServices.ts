@@ -11,6 +11,10 @@ export async function getAllPostsApi(){
         }
     })
     const data:any=await res.json()
+    if (!res.ok || data.success === false) {
+        if (data.message === "jwt expired") throw new Error("SESSION_EXPIRED")
+        throw new Error(data.message || "Something went wrong")
+    }
     const posts:PostI[]=data.data.posts
     return posts
     
@@ -24,6 +28,10 @@ export async function getUserPostsApi(userId:string){
         }
     })
     const data:any=await res.json()
+    if (!res.ok || data.success === false) {
+        if (data.message === "jwt expired") throw new Error("SESSION_EXPIRED")
+        throw new Error(data.message || "Something went wrong")
+    }
     const posts:PostI[]=data.data.posts
     return posts
     
@@ -36,6 +44,10 @@ export async function getFollowingPostsApi(){
         }
     })
     const data:any=await res.json()
+    if (!res.ok || data.success === false) {
+        if (data.message === "jwt expired") throw new Error("SESSION_EXPIRED")
+        throw new Error(data.message || "Something went wrong")
+    }
     const posts:PostI[]=data.data.posts
     return posts
 } 
@@ -47,6 +59,10 @@ export async function getSavedPostsApi(){
         }
     })
     const data:any=await res.json()
+    if (!res.ok || data.success === false) {
+        if (data.message === "jwt expired") throw new Error("SESSION_EXPIRED")
+        throw new Error(data.message || "Something went wrong")
+    }
     const posts:PostI[]=data.data.bookmarks
     return posts
 } 
@@ -60,6 +76,10 @@ export async function AddPostsApi(formData:FormData){
         }
     })
     const data:any=await res.json()
+    if (!res.ok || data.success === false) {
+        if (data.message === "jwt expired") throw new Error("SESSION_EXPIRED")
+        throw new Error(data.message || "Something went wrong")
+    }
     return data
 }
 export async function sharePostApi(postId:string,text:string){
@@ -74,5 +94,9 @@ method: "POST",
 body: JSON.stringify({ body: text }),
 });
 const data = await res.json();
+if (!res.ok || data.success === false) {
+    if (data.message === "jwt expired") throw new Error("SESSION_EXPIRED")
+    throw new Error(data.message || "Something went wrong")
+}
 return data;
 }
