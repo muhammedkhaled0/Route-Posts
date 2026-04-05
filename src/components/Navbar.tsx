@@ -26,6 +26,7 @@ export default function Navbar() {
   },[session])
   if(error){
     signOut()
+    return
   }
   return isLoggedIn==="authenticated"?
   
