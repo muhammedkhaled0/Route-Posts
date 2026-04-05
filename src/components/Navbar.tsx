@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 import { Home, Menu, MessageCircle, User } from "lucide-react";
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "./Contexts/UserContext";
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import NavDropdown from "./NavDropdown";
 import { getUserNotificationsCountApi } from "../services/UserServices.action";
 export default function Navbar() {
@@ -25,7 +25,7 @@ export default function Navbar() {
     getNotiCount()
   },[session])
   if(error){
-    return
+    signOut()
   }
   return isLoggedIn==="authenticated"?
   

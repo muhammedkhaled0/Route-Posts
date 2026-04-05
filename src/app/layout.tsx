@@ -31,17 +31,17 @@ export default function RootLayout({
 <link rel="preconnect" href="https://fonts.gstatic.com"/>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&display=swap" rel="stylesheet"/>
       </head>
-      <MySessionProvider>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+        >
+        <MySessionProvider>
         <UserContextProvider>
         <Navbar/>
         {children}
         </UserContextProvider>
           <Toaster />
-      </body>
       </MySessionProvider>
+      </body>
     </html>
   );
 }
