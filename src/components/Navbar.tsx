@@ -25,8 +25,10 @@ export default function Navbar() {
     getNotiCount()
   },[session])
   if(error){
-    signOut()
-    return
+ signOut({
+              callbackUrl:'/auth'
+              })
+                  return
   }
   return isLoggedIn==="authenticated"?
   
