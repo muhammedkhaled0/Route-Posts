@@ -70,9 +70,10 @@ export default function Home() {
   fetchPosts(feedType)
   }
   if (error||!user) {
-  return <div className="text-red-500">{error}</div>;
+  return <div className="text-red-500 bg-red-200 rounded-lg p-6">{error}</div>
 }
   return <>
+  
   <div className=" myContainer body-space grid items-start  lg:grid-cols-10 grid-cols-1 lg:gap-5 gap-y-5 overflow-visible ">
     <div className="left-sec lg:order-1 order-1 bg-white p-4 rounded-xl shadow lg:sticky lg:top-27 lg:col-span-2 mt-2 h-fit ">
 <ul className="lists grid lg:grid-cols-1 grid-cols-2 gap-y-2.5 font-extrabold text-gray-700 text-sm">
@@ -142,7 +143,14 @@ export default function Home() {
     <div>
       {
         user?
-      <textarea onChange={(e)=>{setPostBody(e.target.value)}}  value={postBody} name="" id="" className="w-full mt-4 h-40 border border-gray-300 p-4 rounded-2xl  focus:outline focus:outline-blue-500 resize-y"   placeholder={`What's on your mind, ${user.name}?`}></textarea>
+      <textarea
+       onChange={(e)=>{setPostBody(e.target.value)}} 
+        value={postBody} name=""
+         id="" className="w-full mt-4 h-40 border
+          border-gray-300 p-4 rounded-2xl  focus:outline focus:outline-blue-500 resize-y"
+           placeholder={`What's on your mind, ${user.name}?`}>
+
+           </textarea>
       :''
       }
       {
@@ -213,6 +221,7 @@ export default function Home() {
       {/* ========================================end add post footer==================================== */}
     </div>
       </div>
+
 {
   loading ? (
     <>

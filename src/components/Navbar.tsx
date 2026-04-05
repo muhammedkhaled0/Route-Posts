@@ -11,7 +11,7 @@ import NavDropdown from "./NavDropdown";
 import { getUserNotificationsCountApi } from "../services/UserServices.action";
 export default function Navbar() {
   const session=useSession()
-  const {user}=useContext(UserContext)
+  const {user,error}=useContext(UserContext)
   const pathName=usePathname()
   const[isLoggedIn,setIsLoggedIn]=useState('')
   const [openDrop,setOpenDrop]=useState(false);
@@ -24,6 +24,9 @@ export default function Navbar() {
     setIsLoggedIn(session.status)
     getNotiCount()
   },[session])
+  if(error){
+    return
+  }
   return isLoggedIn==="authenticated"?
   
    <nav className="max-w-full bg-white shadow fixed top-0 start-0 end-0 z-50 ">
