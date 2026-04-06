@@ -8,6 +8,7 @@ import CoverSection from './CoverSection';
 import AboutSection from './AboutSection';
 import ProfileInfo from './ProfileInfo';
 import StatsSection from './StatesSection';
+import toast from 'react-hot-toast';
 interface Area { x: number; y: number; width: number; height: number }
 
 async function getCroppedBlob(imageSrc: string, pixelCrop: Area): Promise<Blob> {
@@ -60,7 +61,10 @@ export default function HeaderProfile() {
       const formData = new FormData();
       formData.append("cover", selectedCover);
       formData.append("privacy", "public");
-      await uploadProfileCover(formData);
+      const res=await uploadProfileCover(formData);
+      if(res.success==false){
+        toast.error(res.message || "Failed to upload cover photo")
+      }
       setPreviewCover(null);
       setSelectedCover(null);
     } finally {
