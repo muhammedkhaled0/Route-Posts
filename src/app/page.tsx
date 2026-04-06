@@ -15,8 +15,9 @@ import PostSkeleton from "../components/PostSkeleton";
 import { UserContext } from "../components/Contexts/UserContext";
 import CommentsModal from "../components/CommentModal";
 import Loading from "../components/Loading";
-export default function Home() {
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 
+export default function Home() {
   const [posting, setPosting] = useState(false)
   const [open, setOpen] = useState(false)
   const [postBody,setPostBody] = useState<string>('');
@@ -29,33 +30,48 @@ export default function Home() {
     setSendedPostImg(img)
   }
   const [feedType, setFeedType] = useState<"all"|"myPosts"|"following"|"saved">("all")
-  const[posts,setPosts] = useState<PostI[]>([])
   const [privacy, setPrivacy] = useState("public")
-  const [loading, setLoading] = useState(false)
   const { user ,error} = useContext(UserContext);
-  async function fetchPosts(type: "all" | "myPosts"|"following"|"saved") {
-      setLoading(true)
-  let posts: PostI[] = []
-  if(type === "all") {
-    posts = await getAllPostsApi()
-  } else if(type === "myPosts") {
-  if (!user) return
-  posts = await getUserPostsApi(user._id)
-}
-  else if(type === "following") {
-    posts = await getFollowingPostsApi()
-  } 
-  else if(type === "saved") {
-    posts = await getSavedPostsApi()
-  } 
-  setPosts(posts)
-  setLoading(false)
-  }
-  useEffect(()=>{
-    fetchPosts("all")
-   
-    
-  },[])
+
+const queryClient = useQueryClient();
+
+useEffect(() => {
+  if (!user) return;
+
+  queryClient.prefetchQuery({
+    queryKey: ["posts", "all"],
+    queryFn: getAllPostsApi,
+  });
+
+  queryClient.prefetchQuery({
+    queryKey: ["posts", "myPosts"],
+    queryFn: () => getUserPostsApi(user._id),
+  });
+
+  queryClient.prefetchQuery({
+    queryKey: ["posts", "following"],
+    queryFn: getFollowingPostsApi,
+  });
+
+  queryClient.prefetchQuery({
+    queryKey: ["posts", "saved"],
+    queryFn: getSavedPostsApi,
+  });
+
+}, [user]);
+const { data: posts = [], isLoading ,isFetching} = useQuery({
+  queryKey: ["posts", feedType],
+  queryFn: async () => {
+    if (feedType === "all") return getAllPostsApi()
+    if (feedType === "myPosts") return getUserPostsApi(user!._id)
+    if (feedType === "following") return getFollowingPostsApi()
+    if (feedType === "saved") return getSavedPostsApi()
+    return []
+  },
+  enabled: !!user,
+  refetchInterval: 30000,
+});
+
   async function sendPost(){
   setPosting(true)
   const formData = new FormData()
@@ -67,19 +83,24 @@ export default function Home() {
   setSendedPostImg(null)
   setPostBody('')
   setPostImg(null)
-  fetchPosts(feedType)
+queryClient.invalidateQueries(
+  {queryKey: ["posts","all"]},
+);
+queryClient.invalidateQueries(
+  {queryKey: ["posts","myPosts"]},
+);
   }
-  if (error||!user) {
+  if(!user)return <Loading/>
+  if (error) {
   return <div className="text-red-500 bg-red-200 rounded-lg p-6">{error}</div>
 }
   return <>
-  
   <div className=" myContainer body-space grid items-start  lg:grid-cols-10 grid-cols-1 lg:gap-5 gap-y-5 overflow-visible ">
     <div className="left-sec lg:order-1 order-1 bg-white p-4 rounded-xl shadow lg:sticky lg:top-27 lg:col-span-2 mt-2 h-fit ">
 <ul className="lists grid lg:grid-cols-1 grid-cols-2 gap-y-2.5 font-extrabold text-gray-700 text-sm">
   <li 
     className={`flex gap-x-2 py-1 px-2 rounded-xl cursor-pointer ${feedType === "all" ? "bg-blue-100 text-blue-500" : ""}`}
-    onClick={() => { setFeedType("all"); fetchPosts("all") }}
+    onClick={() => { setFeedType("all"); }}
   >
     <Newspaper className='size-5'/> Feed
   </li>
@@ -88,20 +109,19 @@ export default function Home() {
     onClick={() => {
   if (!user?._id) return
   setFeedType("myPosts")
-  fetchPosts("myPosts")
 }}
   >
     <SparkleIcon className='mt-0.5 size-5'/> My Posts
   </li>
   <li 
     className={`flex gap-x-2 py-1 px-2 rounded-xl cursor-pointer ${feedType === "following" ? "bg-blue-100 text-blue-500" : ""}`}
-    onClick={() => { setFeedType("following"); fetchPosts("following") }}
+    onClick={() => { setFeedType("following");}}
   >
     <EarthIcon className='size-5'/> Community
   </li>
    <li 
     className={`flex gap-x-2 py-1 px-2 rounded-xl cursor-pointer ${feedType === "saved" ? "bg-blue-100 text-blue-500" : ""}`}
-    onClick={() => { setFeedType("saved"); fetchPosts("saved") }}
+    onClick={() => { setFeedType("saved"); }}
   >
     <Bookmark className='size-5'/> Saved
   </li>
@@ -156,7 +176,9 @@ export default function Home() {
       {
         postImg?
      <div className="relative">
-      <div className="absolute top-3 right-3 rounded-full text-white bg-gray-800 cursor-pointer" onClick={()=>{setPostImg(null)}}>
+      <div className="absolute top-3 right-3 rounded-full text-white bg-gray-800 cursor-pointer" onClick={()=>{
+        setPostImg(null)
+        setSendedPostImg(null)}}>
       <X/>
       </div>
        <img src={postImg} className="w-full"/>
@@ -223,7 +245,7 @@ export default function Home() {
       </div>
 
 {
-  loading ? (
+  isLoading ? (
     <>
       <PostSkeleton />
       <PostSkeleton />

@@ -4,7 +4,9 @@ import "./globals.css";
 import Navbar from '@/src/components/Navbar'
 import UserContextProvider from "../components/Contexts/UserContext";
 import { Toaster } from "react-hot-toast";
-import MySessionProvider from "../SessionProvider";
+import MySessionProvider from "../Providers/SessionProvider";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import MyQueryClientProvider from "../Providers/QueryClientProvider";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -24,6 +26,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const queryClient=new QueryClient()
   return (
     <html lang="en">
       <head>
@@ -35,11 +38,13 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
         <MySessionProvider>
+          <MyQueryClientProvider>
         <UserContextProvider>
         <Navbar/>
         {children}
         </UserContextProvider>
           <Toaster />
+          </MyQueryClientProvider>
       </MySessionProvider>
       </body>
     </html>

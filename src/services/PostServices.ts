@@ -11,14 +11,8 @@ export async function getAllPostsApi(){
         }
     })
     const data:any=await res.json()
-    if (!res.ok || data.success === false) {
-        if (data.message === "jwt expired") throw new Error("SESSION_EXPIRED")
-        throw new Error(data.message || "Something went wrong")
-    }
-    const posts:PostI[]=data.data.posts
-    return posts
-    
-} 
+    return data.data.posts as PostI[]    
+    } 
 export async function getUserPostsApi(userId:string){
         const token=await getUserToken()
     const res=await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/users/${userId}/posts`,{
