@@ -256,9 +256,12 @@ queryClient.invalidateQueries(
       <p className="text-blue-500 text-3xl font-extrabold">No posts yet 🚀</p>
     </div>
   ) : (
-    posts.map((post) => (
-      <PostCard post={post} key={post._id} currentUserId={user?._id} currentUser={user}/>
-    ))
+    posts.map((post) =>{
+      console.log(post);
+      
+      return <PostCard post={post} key={post._id} currentUserId={user?._id} currentUser={user}/>
+    }
+  )
   )
 }
     </div>

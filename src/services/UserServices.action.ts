@@ -87,11 +87,7 @@ export async function uploadProfileCover(formData:FormData){
    "Authorization": `Bearer ${token}`
         }
     })
-    console.log(res);
-    
     const data=await res.json()
-
-    console.log(data);
     return data 
     
 } 
