@@ -7,11 +7,13 @@ import React, { createContext, useEffect, useState } from "react";
 type UserContextType = {
   user: UserI | null;
   error: string | null;
+  loading: boolean;
 };
 
 export const UserContext = createContext<UserContextType>({
   user: null,
   error: null,
+  loading: true,
 });
 
 export default function UserContextProvider({
@@ -21,6 +23,8 @@ export default function UserContextProvider({
 }) {
   const [user, setUser] = useState<UserI | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     async function fetchUser() {
       try {
@@ -28,13 +32,16 @@ export default function UserContextProvider({
         setUser(data);
       } catch (err) {
         setError((err as Error).message);
+      } finally {
+        setLoading(false);
       }
     }
+
     fetchUser();
   }, []);
 
   return (
-    <UserContext.Provider value={{ user, error }}>
+    <UserContext.Provider value={{ user, error, loading }}>
       {children}
     </UserContext.Provider>
   );

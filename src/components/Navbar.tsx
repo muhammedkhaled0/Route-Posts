@@ -11,7 +11,7 @@ import NavDropdown from "./NavDropdown";
 import { getUserNotificationsCountApi } from "../services/UserServices.action";
 export default function Navbar() {
   const session=useSession()
-  const {user,error}=useContext(UserContext)
+  const {user,error,loading}=useContext(UserContext)
   console.log(user);
   
   const pathName=usePathname()
@@ -30,14 +30,16 @@ export default function Navbar() {
     useEffect(()=>{
     getNotiCount()
   },[])
-    useEffect(()=>{
-  if(error||!user?._id){
+useEffect(() => {
+  if (session.status !== "authenticated") return;
+  if (loading) return;
+
+  if (error || !user?._id) {
     signOut({
-              callbackUrl:'/auth'
-              })
-    return
+      callbackUrl: "/auth",
+    });
   }
-  },[])
+}, [session.status, loading, user, error]);
   return isLoggedIn==="authenticated"?
   
    <nav className="max-w-full bg-white shadow fixed top-0 start-0 end-0 z-50 ">
