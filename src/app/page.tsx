@@ -257,7 +257,6 @@ queryClient.invalidateQueries(
     </div>
   ) : (
     posts.map((post) =>{
-      console.log(post);
       
       return <PostCard post={post} key={post._id} currentUserId={user?._id} currentUser={user}/>
     }

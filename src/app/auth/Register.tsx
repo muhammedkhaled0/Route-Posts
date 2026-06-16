@@ -38,8 +38,6 @@ export default function Register() {
     setApiError(null)
     const  res=await registerApi(data)
     if(typeof res=="object"&&"success" in res  && res.success==true ){
-console.log("hellow");
-
       setApiError(null)
       setRegisterSuccess('Register Done Successfully You Should to Login Now')
     }
