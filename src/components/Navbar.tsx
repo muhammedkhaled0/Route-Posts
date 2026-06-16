@@ -12,6 +12,8 @@ import { getUserNotificationsCountApi } from "../services/UserServices.action";
 export default function Navbar() {
   const session=useSession()
   const {user,error}=useContext(UserContext)
+  console.log(user);
+  
   const pathName=usePathname()
   const[isLoggedIn,setIsLoggedIn]=useState('')
   const [openDrop,setOpenDrop]=useState(false);
@@ -29,7 +31,7 @@ export default function Navbar() {
     getNotiCount()
   },[])
     useEffect(()=>{
-  if(error){
+  if(error||!user?._id){
     signOut({
               callbackUrl:'/auth'
               })
